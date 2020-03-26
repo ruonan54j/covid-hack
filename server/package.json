@@ -1,0 +1,34 @@
+{
+  "name": "covid-project",
+  "version": "1.0.0",
+  "description": "hackquarantine",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruonan54j/covid-project.git"
+  },
+  "keywords": [
+    "covid-project",
+    "covid19",
+    "corona",
+    "virus"
+  ],
+  "author": "covid-project-team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruonan54j/covid-project/issues"
+  },
+  "homepage": "https://github.com/ruonan54j/covid-project#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.9.6",
+    "morgan": "^1.10.0"
+  }
+}
