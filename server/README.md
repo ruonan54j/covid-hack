@@ -1,3 +1,8 @@
+# Install All the dependency
+
+    cd <to this folder>
+    npm install
+
 # How to run the server ?
 
 you can use same command on linux , osx , windows
