@@ -5,9 +5,10 @@ exports.Origin    = "*";
 
 /* config for database */
 exports.DbHost      = "mongodb://localhost:27017/covid-hack";
-exports.DbName    = "covid-hack";
-exports.DbUser    = "root";
-exports.DbOptions = {
+exports.DbName      = "covid-hack";
+exports.DbUser      = "root";
+exports.DbPassword  = "";
+exports.DbOptions   = {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
