@@ -5,9 +5,249 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #F4F4F4;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* 
+start */
+.part-title{
+  font-size: 1.5em;
+}
+
+.part-description{
+  font-size: 1em;
+  height: 4em;
+}
+
+.part-img{
+  width: 10em;
+  height: 10em;
+  object-fit: cover;
+  border-radius: .3em;
+}
+
+.part-post{
+  width: 100%;
+  margin-bottom: 2em;
+  background: white;
+  padding: 1.5em;
+  border-radius: .3em;
+}
+
+.part-content {
+  text-align: left;
+}
+
+.part-need-btn {
+  font-size: .8em; 
+  margin-right: 2em;
+}
+
+.part-supply-btn {
+  font-size: .8em;
+}
+
+.part-btn-custom{
+  border: none;
+  background-color: #b5b5b5;
+  color: white;
+  padding: 0.8em 1em 0.8em 1em;
+  border-radius: .5em;
+}
+
+.part-btn-custom-blue{
+  border: none;
+  background-color: #00609A;
+  margin-right: 4%;
+  color: white;
+  padding: 0.8em 1em 0.8em 1em;
+  border-radius: .5em;
+}
+
+.part-btn-custom:hover{
+  background-color: #00609A;
+  color: white;
+}
+
+.right-div{
+  text-align: right;
+}
+
+.part-listing{
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+/* part End */
+
+/* search start */
+.search-input{
+  border:none;
+  margin-right: 1%;
+  margin-top: 5em;
+  margin-bottom: 1em;
+  border-radius: .3em;
+  padding: .8em;
+  width: 70%;
+}
+
+.container-search{
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+::placeholder {
+ color: #b5b5b5;
+}
+
+.search-btn{
+  border:none;
+  border-radius: .3em;
+  padding: .8em;
+  width: 29%;
+  color: white;
+  background-color: #00609A;
+}
+
+.search-desc{
+  text-align:right;
+  width: 100%;
+  margin-bottom: 3em;
+}
+
+/*search end*/
+
+/*makers db start*/
+.makers-db{
+  width: 100%;
+}
+
+/*makers db end*/
+
+/*navbar starts*/
+.left-nav{
+  width: 50%;
+  text-align: left;
+}
+.navbar-custom {
+  background: white;
+  padding: 1em 4em 0 4em;
+  margin: 0;
+  width: 100%;
+  color: black;
+}
+
+.nav-logo{
+  font-size: 2em;
+  color: black;
+}
+
+.nav-page{
+  color: black;
+  height: 100%;
+  padding: .5em 2em 0em 2em;
+}
+
+.nav-page-active{
+  border-bottom: .5em solid #6978A7;
+} 
+
+.nav-profile{
+  color: black;
+  height: 100%;
+  width: 15%;
+  padding: .5em 2em 0em 2em;
+}
+
+.nav-profile-active{
+  border-bottom: #6978A7 solid 1em;
+} 
+
+.nav-profile-pic{
+  width: 3.5em;
+  height: 3.5em;
+  margin: -1em 1em .5em 1em;
+  border-radius: 50%;
+}
+/*navbar ends*/
+
+/*popup start*/
+  #overlay-part{
+    position: fixed; 
+    width: 100%; 
+    height: 100%; 
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 100x;
+    background-color: rgba(0,0,0,0.5); 
+    z-index: 2; 
+    cursor: pointer; 
+}
+
+.part-popup{
+  margin: 10% 30% auto 30%;
+  background: white;
+  width: 40%;
+  height: 60vh;
+  padding: 3em;
+  border-radius: .3em;
+  
+}
+
+.popup-col{
+  width: 48%;
+  text-align: left;
+}
+
+.popup-desc {
+  margin-right: 4%;
+  font-size: .8em;
+}
+
+.popup-img{
+  width: 100%;
+  height: auto;
+}
+
+.popup-img-small{
+  width: 31.3%;
+  margin-top: 4%;
+  margin-left: 2%;
+  height: auto;
+}
+
+.popup-img-div{
+  text-align: right;
+  padding-right: 0;
+}
+
+.popup-title {
+  margin-bottom: .5em;
+  font-size: 1.8em;
+  width: 100%;
+}
+
+.popup-grey-text {
+  color: #adadad;
+}
+
+.parts-popup-list{
+  list-style-type: none;
+  padding: 0;
+}
+
+.popup-btn {
+  margin-top: 5%;
+  width: 30%;
+}
+/*popup end*/
