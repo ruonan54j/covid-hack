@@ -14,6 +14,10 @@ exports.removeUser = function(req , res , next){
 
 }
 
+exports.createUser = function(req , res , next){
+    
+}
+
 exports.updateToUserCollection = function(req , res , next){
 
 }

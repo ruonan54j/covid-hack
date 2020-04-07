@@ -17,7 +17,9 @@ const partID = "/:partID";
 /* all route will write here */
 
 // index endpoint
-router.get("/" , controller.Index);
+router.get("/" , function(req , res ,next){
+    res.json({msg:"ok"});
+});
 
 /* user endpoints */
 router.get(userRoute + userID, userController.findUser);
@@ -26,8 +28,8 @@ router.post(userRoute, userController.createUser);
 router.delete(userRoute + userID, userController.removeUser);
 
 // user's collection endpoint
-router.put(userRoute + userID + "/collection" + partID, userController.updateToCollection)
-router.delete(userRoute + userID + "/collection" + partID, userController.removeFromCollection)
+router.put(userRoute + userID + "/collection" + partID, userController.updateToUserCollection)
+router.delete(userRoute + userID + "/collection" + partID, userController.removeFromUserCollection)
 // router.get(userRoute + "/collection", controller)
 
 /* post endpoints */
