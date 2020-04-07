@@ -7,9 +7,9 @@ import React, { useState, useEffect } from "react";
 
 const MakersDatabase = () => {
     return (
-        <div class="makers-db">
+        <div className="makers-db">
         <PartFilesPopup />
-         <SearchBar class="search-position"/>
+         <SearchBar className="search-position"/>
          <PartListing/>
         </div>
     ) 

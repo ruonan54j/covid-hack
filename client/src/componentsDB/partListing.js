@@ -27,14 +27,14 @@ const PartListing = () => {
     let partListing = [];
     for (var i = 0; i < partDetails.length; i++) {
         partListing.push(
-          <div class="col-6">
+          <div className="col-6">
           <Part title={partDetails[i].title} description={partDetails[i].description} img={partDetails[i].img}/> 
             </div>
         );
     }
     
     return (
-      <div class="row part-listing">
+      <div className="row part-listing">
         {partListing}
       </div>
     )

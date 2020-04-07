@@ -8,20 +8,20 @@ const Part = (props) => {
     }
     
     return (
-      <div class="part-post">
-        <div class="row">
-        <div class= "col-8 part-content">
-        <h1 class="part-title">{props.title}</h1>
-        <p class="part-description">{props.description}</p>
-        <button class="part-need-btn part-btn-custom">
+      <div className="part-post">
+        <div className="row">
+        <div className= "col-8 part-content">
+        <h1 className="part-title">{props.title}</h1>
+        <p className="part-description">{props.description}</p>
+        <button className="part-need-btn part-btn-custom">
           I need this part
         </button>
-        <button class="part-supply-btn part-btn-custom" onClick={handleSupplierClick}>
+        <button className="part-supply-btn part-btn-custom" onClick={handleSupplierClick}>
          I can make this part
         </button>
         </div>
-        <div class="col-4 right-div">
-          <img src={props.img} alt = "valves" class="part-img"/>
+        <div className="col-4 right-div">
+          <img src={props.img} alt = "valves" className="part-img"/>
         </div>
         </div>
       </div>

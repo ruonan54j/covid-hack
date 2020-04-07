@@ -7,18 +7,18 @@ const SearchBar = () => {
        setSearchTerm(event.target.value);
      };
      return (
-       <div class = "text-center">
-         <div class="container container-search">
+       <div className = "text-center">
+         <div className="container container-search">
          <input
-           class="search-input"
+           className="search-input"
            type="text"
            placeholder="Search for a part"
            value={searchTerm}
            onChange={handleChange}
          />
-         <button class="search-btn">Add Filter</button>
-         <div class="search-desc">
-         <p class="search-sort">sorted by Date</p>
+         <button className="search-btn">Add Filter</button>
+         <div className="search-desc">
+         <p className="search-sort">sorted by Date</p>
          </div>
          </div>
        </div>
