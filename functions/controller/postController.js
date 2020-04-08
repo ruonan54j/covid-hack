@@ -1,6 +1,5 @@
-const admin = require('firebase-admin');
-admin.initializeApp();
-const postCollection = admin.firestore().collection('posts');
+const {db} = require('../util/admin');
+const postCollection = db.collection('posts');
 
 exports.findPost = function(req, res, next){
     

@@ -1,5 +1,4 @@
-var firebase    = require('firebase');
-
+const firebase = require('firebase');
 const firebaseConfig = {
     apiKey: "AIzaSyCN3T3MZt4jSS66QpRIG2N4l6VO11eqpP8",
     authDomain: "covid-hack-c6549.firebaseapp.com",
@@ -10,6 +9,7 @@ const firebaseConfig = {
     appId: "1:976843410076:web:6ae76390cdf1058a0abb59",
     measurementId: "G-0F0E3H98LS"
 };
+firebase.initializeApp(firebaseConfig);
+module.exports = {firebase};
 
-var fire = firebase.initializeApp(firebaseConfig);
-module.exports = fire;
+

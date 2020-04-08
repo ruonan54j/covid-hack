@@ -4,8 +4,9 @@ var router        = express.Router();
 var userController = require('../controller/userController');
 var postController = require('../controller/postController');
 var partController = require('../controller/partController');
+var middleware = require('../middleware/middleware');
 
-const userRoute = "/user";
+const userRoute = "/users";
 const userID = "/:userID";
 
 const postRoute = "/posts";
@@ -21,10 +22,12 @@ router.get("/" , function(req , res ,next){
     res.json({msg:"ok"});
 });
 
+
 /* user endpoints */
 router.get(userRoute + userID, userController.findUser);
 router.put(userRoute + userID, userController.updateUser);
-router.post(userRoute, userController.createUser);
+// Sign up user
+router.post(userRoute, middleware.signUpUser, userController.createUser, middleware.sendConfirmationEmail);
 router.delete(userRoute + userID, userController.removeUser);
 
 // user's collection endpoint
