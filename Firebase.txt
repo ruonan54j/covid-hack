@@ -1,0 +1,18 @@
+The plan is to use Firebase Cloud Functions to store our server,
+instead of using our own dedicated machine as a server and communicating externally to Firebase.
+(On a side note, Firebase also has a hosting option if necessary - but not needed as of now)
+Firebase cloud functions is by default a node.js application that runs.
+
+To deploy changes to the firebase cloud functions. 
+Run ONCE:
+    npm -g install firebase-tools
+    firebase login
+
+Run after each time you modify the app:
+    firebase deploy
+
+
+Note that you have to be added to the project as an editor to run firebase deploy.
+Contact me with your email, and I can add you to the project.
+
+

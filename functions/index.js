@@ -9,7 +9,10 @@ var methodOverride= require("method-override");
 var createError   = require('http-errors');
 var config        = require("./config/env.js");
 
-// URL Parser and Method Overriding
+
+var ORIGIN = config.Origin;
+
+// URL Parser, Logging, and Method Overriding
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(logger('dev'));
