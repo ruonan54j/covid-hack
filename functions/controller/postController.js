@@ -4,7 +4,7 @@ const postCollection = admin.firestore().collection('posts');
 
 exports.findPost = function(req, res, next){
     
-    // Will add querying to limit posts returned
+    // Will add querying / pagination limits to limit posts returned
     let getPosts = postCollection
         .get()
         .then((snapShot) => {
@@ -47,19 +47,21 @@ exports.getPost = function(req , res , next){
 exports.updatePost = function(req , res , next){
     let post = req.body;
 
-    let getPost = postCollection.doc(req.params.postID)
+    // TODO: Validate Post Data Fields
+
+    let getPostResult = postCollection.doc(req.params.postID)
         .update(post)
         .then((writeResult) => {
             res.status(200);
             res.json(writeResult);
+            return writeResult;
         })
         .catch((err) => {
             res.status(500);
             res.body(err);
             console.error('Error updating: ', err);
         })
-    // TODO: Validate Post Data Fields
-    // let editPost = postCollection.doc()
+    
 
 }
 

@@ -4,15 +4,16 @@ instead of using our own dedicated machine as a server and communicating externa
 Firebase cloud functions is by default a node.js application that runs.
 
 To deploy changes to the firebase cloud functions. 
-Run ONCE:
+Run ONCE in the functions directory:
     npm -g install firebase-tools
     firebase login
+    npm install
 
 Run after each time you modify the app:
     firebase deploy
 
 
 Note that you have to be added to the project as an editor to run firebase deploy.
-Contact me with your email, and I can add you to the project.
+Contact me (Sathya) with your email, and I can add you to the project.
 
 

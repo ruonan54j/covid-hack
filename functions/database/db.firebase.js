@@ -1,15 +1,15 @@
-var config      = require("../config/env");
 var firebase    = require('firebase');
 
-var firebaseConfig = {
-    apiKey: config.FIRE_API_KEY,
-    authDomain: config.FIRE_AUTH_DOMAIN,
-    databaseURL: config.FIRE_DB_URL,
-    projectId: config.FIRE_PROJECT_ID,
-    storageBucket: config.FIRE_STORAGE_BUCK,
-    messagingSenderId: config.FIRE_MSG_SENDERID,
-    appId: config.FIRE_APP_ID
-}
+const firebaseConfig = {
+    apiKey: "AIzaSyCN3T3MZt4jSS66QpRIG2N4l6VO11eqpP8",
+    authDomain: "covid-hack-c6549.firebaseapp.com",
+    databaseURL: "https://covid-hack-c6549.firebaseio.com",
+    projectId: "covid-hack-c6549",
+    storageBucket: "covid-hack-c6549.appspot.com",
+    messagingSenderId: "976843410076",
+    appId: "1:976843410076:web:6ae76390cdf1058a0abb59",
+    measurementId: "G-0F0E3H98LS"
+};
 
 var fire = firebase.initializeApp(firebaseConfig);
 module.exports = fire;
