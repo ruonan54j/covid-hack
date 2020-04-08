@@ -1,7 +1,7 @@
 var config      = require("../config/env");
 var firebase    = require('firebase');
 
-var config = {
+var firebaseConfig = {
     apiKey: config.FIRE_API_KEY,
     authDomain: config.FIRE_AUTH_DOMAIN,
     databaseURL: config.FIRE_DB_URL,
@@ -11,5 +11,5 @@ var config = {
     appId: config.FIRE_APP_ID
 }
 
-var fire = firebase.initializeApp(config);
+var fire = firebase.initializeApp(firebaseConfig);
 module.exports = fire;

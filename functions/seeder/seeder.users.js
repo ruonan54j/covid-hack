@@ -5,8 +5,13 @@ var pass        = crypto.createHmac("sha256",config.KEY).update('toor').digest("
 var db          = require("../database/db.connection.js");
 
 user.find({username:"root"} , function(err , data){
-    if(data.length == 0){
-        var data = new user({
+    if(err){
+        console.log('Error: ' + err);
+        throw err;
+    }
+    
+    if(data.length === 0){
+        var newData = new user({
             username:"root",
             password:pass,
             email:"arsalan.dp@gmail.com",
@@ -15,9 +20,9 @@ user.find({username:"root"} , function(err , data){
             photo_profile:"none",
             userType:"buyer"
         });
-        data.save(function(err){
+        newData.save(function(err){
             if(err) throw err;
             console.log("user data created..");
         })
     }
-})
+});
