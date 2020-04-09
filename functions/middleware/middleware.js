@@ -12,36 +12,7 @@ exports.authenticateUser = function(req, res, next){
 
 }
 
-exports.signUpUser = function(req, res, next){
-
-    // Figure out how the user signs up (Email/Password, Google Sign-in)
-
-    // Run the corresponding firebase auth function as necessary
-    // (What happens if the user already exists?)
-    // (What happens if the userHandle is already taken? Any way to automate this on front-end?)
-
-    // Put the userID and/or userHandle in the request body for later (Database initialization)
-    // Return back an error
-
-    console.log('Signing up user...');
-    const newUser = {
-        email: req.body.email,
-        password: req.body.password,
-        confirmPassword: req.body.confirmPassword,
-        handle: req.body.handle,
-    };
-
-    firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password)
-        .then(data => {
-            return res.status(201).json({message: `user ${data.user.uid} signed up successfully`});
-        })
-        .catch((err) => {
-            console.error(err);
-            return res.status(500).json({error: err.code})
-        });
-}
-
-// on signup
+// on signUp
 exports.sendConfirmationEmail = function(req, res, next){
 
     // After data is initialized, send a confirmation email for verification

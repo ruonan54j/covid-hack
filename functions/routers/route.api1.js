@@ -1,10 +1,10 @@
 /* load all the libs */
-var express       = require('express');
-var router        = express.Router();
-var userController = require('../controller/userController');
-var postController = require('../controller/postController');
-var partController = require('../controller/partController');
-var middleware = require('../middleware/middleware');
+const express = require('express');
+const router        = express.Router();
+const userController = require('../controller/userController');
+const postController = require('../controller/postController');
+const partController = require('../controller/partController');
+const middleware = require('../middleware/middleware');
 
 const userRoute = "/users";
 const userID = "/:userID";
@@ -18,7 +18,7 @@ const partID = "/:partID";
 /* all route will write here */
 
 // index endpoint
-router.get("/" , function(req , res ,next){
+router.get("/" , (req , res ,next) => {
     res.json({msg:"ok"});
 });
 
@@ -27,7 +27,7 @@ router.get("/" , function(req , res ,next){
 router.get(userRoute + userID, userController.findUser);
 router.put(userRoute + userID, userController.updateUser);
 // Sign up user
-router.post(userRoute, middleware.signUpUser, userController.createUser, middleware.sendConfirmationEmail);
+router.post(userRoute, userController.signUpUser, middleware.sendConfirmationEmail);
 router.delete(userRoute + userID, userController.removeUser);
 
 // user's collection endpoint

@@ -1,7 +1,7 @@
 /* load all the libs */
-var express       = require('express');
-var router        = express.Router();
-var controller    = require('../controller/controller.v2.js');
+const express       = require('express');
+const router        = express.Router();
+const controller    = require('../controller/controller.v2.js');
 
 /* all route will write here */
 router.get("/" , controller.Index);

@@ -1,2 +1,7 @@
 client/node_modules
 server/node_modules
+.idea/covid-hack.iml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
