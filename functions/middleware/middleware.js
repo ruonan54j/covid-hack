@@ -1,14 +1,40 @@
 const {firebase} = require('../util/firebase');
+const {admin, db} = require('../util/admin');
 
 // authenticate user on login pages
 exports.authenticateUser = function(req, res, next){
 
-    // Check for a valid authentication token in request header
+    // Default isAuthorized is false, until token is successfully verified
+    res.locals.isAuthorized = false;
 
+    // Check for a valid authentication token in request header
     // If there's a token present, check with Firebase auth if token is valid
     // If valid, add the userID and/or handle to the request data for later use
 
-    // Else flag the req.firebaseAuth property as a bad value
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')){
+        const idToken = req.headers.authorization.split('Bearer ')[1];
+        admin.auth().verifyIdToken(idToken)
+            .then(decodedToken => {
+                res.locals.user.token = decodedToken;
+                return db.collection('users')
+                    .where('userID', '==', res.locals.user.token)
+                    .limit(1)
+                    .get()
+            })
+            .then(data => {
+                res.locals.user.handle = data.docs[0].data().handle;
+                res.locals.isAuthorized = true;
+                return next();
+            })
+            .catch(err => {
+                console.error('Error while verifying token');
+                return res.status(403).json(err);
+            });
+    }
+    else{
+        console.log('No Token Found');
+        return next();
+    }
 
 }
 
