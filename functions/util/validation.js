@@ -39,3 +39,30 @@ exports.validateSignUpData = (newUser) => {
         valid: Object.keys(errors).length === 0
     };
 };
+
+exports.reduceUserDetails = (data) => {
+    let userDetails = {};
+    let errors = {};
+
+    // User Bio
+    if(!isEmpty(data.bio)) userDetails.bio = data.bio;
+
+    // User Location Data
+    if(data.hasOwnProperty('latitude') && data.hasOwnProperty('longitude')){
+        const x = !(isNaN(data.latitude)) && data.latitude <= 90 && data.latitude >= -90;
+        const y = isNaN(data.longitude) && data.longitude <= 180 && data.longitude >= -180;
+        if(!x){
+            errors.latitude = 'Incorrect format or range (needs number from -90 to 90)';
+        }
+        if(!y){
+            errors.longitude = 'Incorrect format or range (needs number from -180 to 180)';
+        }
+
+        if(x && y){
+            userDetails.location = new firebase.firestore.GeoPoint(data.latitude, data.longitude);
+        }
+    }
+
+    // Add fields as necessary
+
+};

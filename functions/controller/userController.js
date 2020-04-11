@@ -1,19 +1,32 @@
-const {firebase} = require('../util/firebase');
-const {db} = require('../util/admin');
-const {validateSignUpData} = require('../util/validation');
+const {firebase, firebaseConfig} = require('../util/firebase');
+const {admin, db} = require('../util/admin');
+const {validateSignUpData, reduceUserDetails} = require('../util/validation');
 
-exports.findUser = function(req , res , next){
-}
+exports.findUser = function(req, res){
 
-exports.updateUser = function(req , res , next){
+    db.doc(`/users/${req.params.handle}`)
+        .get()
+        .then((doc) => {
+            if(doc.exists)
+                return res.status(200).json(doc.data());
+            else
+                return res.status(204).json({message: 'User not found'});
+        })
+        .catch(err => {
+            console.error('Error getting collection of posts', err);
+            return res.status(500).json({error: err.code, errorMessage: err.message});
+        });
+
 }
 
 // eslint-disable-next-line consistent-return
-exports.signUpUser = function(req, res, next){
+exports.signUpUser = function(req, res){
 
     const {valid, errors} = validateSignUpData(req.body);
     if (!valid) return res.status(400).json(errors);
     const newUser = req.body;
+
+    let noImg = newUser.isSupplier ? 'no-img-supplier.png' : 'no-img-buyer.png';
 
     let token, userID;
     db.doc(`/users/${newUser.handle}`)
@@ -42,6 +55,7 @@ exports.signUpUser = function(req, res, next){
                 createdAt: new Date().toISOString(),
                 isVerified: false,
                 isSupplier: newUser.isSupplier,
+                imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
                 userID
             };
             return db.doc(`/users/${newUser.handle}`).set(userCredentials);
@@ -56,25 +70,116 @@ exports.signUpUser = function(req, res, next){
             else
                 return res.status(500).json({error: err.message});
         });
-
-    return next();
 }
 
-exports.loginUser = function(req , res , next){
+// eslint-disable-next-line consistent-return
+exports.loginUser = function(req, res){
+
+    const user = {
+        email: req.body.email,
+        password: req.body.password,
+    }
+
+    let errors = {}
+
+    if (isEmpty(errors.email)) errors.email = 'Must not be empty'
+    if (isEmpty(errors.password)) errors.password = 'Must not be empty'
+    if (Object.keys(errors) > 0) return res.status(400).json(errors);
+
+    firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+        .then(data => {
+            return data.user.getIdToken();
+        })
+        .then(token => {
+            return res.status(200).json(token).send();
+        })
+        .catch(err => {
+            console.error("Error signing in: " + err);
+            return res.status(500).json({error: err.code});
+        });
+
 }
 
-exports.removeUser = function(req , res , next){
+exports.updateUser = function(req, res){
+    let userDetails = reduceUserDetails(req.body);
+    db.doc(`/users/${res.locals.user.handle}`).update(userDetails)
+        .then(() => {
+            return res.status(200).json({message: "User updated successfully"})
+        })
+        .catch(err => {
+            return res.status(500).json({error: err.code, errorMessage: err.message});
+        });
+}
+
+exports.removeUser = function(req, res){
+    admin.auth().deleteUser(res.locals.user.userID)
+        .then(() => {
+            return db.doc(`/users/${res.locals.user.handle}`).delete();
+        })
+        .then(() => {
+            return res.status(200).json({message: 'User Deleted Successfully'});
+        })
+        .catch(err => {
+            return res.status(500).json({error: err.code, errorMessage: err.message});
+        });
+}
+
+exports.updateToUserCollection = function(req, res){
 
 }
 
-exports.createUser = function(req , res , next){
-    
-}
-
-exports.updateToUserCollection = function(req , res , next){
+exports.removeFromUserCollection = function(req, res){
 
 }
 
-exports.removeFromUserCollection = function(req , res , next){
+exports.emailRecovery = function(req, res){
 
+}
+
+exports.uploadProfileImage = function(req, res){
+    const BusBoy = require('busboy');
+    const path = require('path');
+    const os = require('os');
+    const fs = require('fs');
+    const { v4: uuidv4 } = require('uuid');
+
+    const busboy = new BusBoy({headers: req.headers});
+    let imageToBeUploaded, imageFilename;
+    busboy.on('file', (fieldName, file, filename, encoding, mimeType) => {
+        console.log(fieldName);
+        console.log(filename);
+        console.log(mimeType);
+
+        if(mimeType !== 'image/jpeg' && mimeType !== 'image/png')
+            return res.status(400).json({error: 'Wrong file type submitted'});
+
+        const imageExtension = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2).toLowerCase();
+        imageFilename = `${res.locals.user.handle}-${uuidv4()}.${imageExtension}`;
+        const filepath = path.join(os.tmpdir(), imageFilename);
+        imageToBeUploaded = {filepath, mimeType};
+
+        file.pipe(fs.createWriteStream(filepath));
+    });
+    busboy.on('finish', () => {
+        admin.storage().bucket()
+            .upload(imageToBeUploaded.filepath, {
+                resumable: false,
+                metadata: {
+                    metadata: {
+                        contentType: imageToBeUploaded.mimeType
+                    }
+                }
+            })
+            .then(() => {
+                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageFileName}?alt=media`;
+                return db.doc(`/users/${res.locals.user.handle}`).update({imageUrl: imageUrl});
+            })
+            .then(() => {
+                return res.status(200).json({message: 'Image uploaded successfully'})
+            })
+            .catch(err => {
+                res.status(500).json({error: err.code});
+            })
+    });
+    busboy.end(req.rawBody);
 }

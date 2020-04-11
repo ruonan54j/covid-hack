@@ -4,16 +4,17 @@ const postCollection = db.collection('posts');
 exports.findPost = function(req, res, next){
     
     // Will add querying / pagination limits to limit posts returned
-    let getPosts = postCollection
+    postCollection
         .get()
         .then((snapShot) => {
             let posts = [];
             snapShot.forEach(doc => {
                 posts.push(doc.data());
             });
-            res.status(200);
-            res.json(posts);
-            return posts;
+            if(posts.length > 0)
+                return res.status(200).json(posts);
+            else
+                return res.status(204).json({message: 'No posts found'});
         })
         .catch(err => {
             console.error('Error getting collection of posts', err);
@@ -26,7 +27,7 @@ exports.getPost = function(req , res , next){
         .get()
         .then((doc) => {
             if (!doc.exists){
-                res.status(400);
+                res.status(400).json({error: "Post with this ID doesn't exist"});
                 console.log("Post with ID doesn't exist");
                 return null;
             }

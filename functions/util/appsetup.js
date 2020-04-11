@@ -42,7 +42,7 @@ app.use("/v1",apis1);
 app.use("/v2",apis2);
 
 // Status Codes
-app.use((req , res , next) => {
+app.use((req, res, next) => {
 	next(createError(404))
 })
 app.use(function(err, req, res, next){

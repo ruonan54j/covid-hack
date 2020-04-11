@@ -12,18 +12,18 @@ exports.authenticateUser = function(req, res, next){
     // If valid, add the userID and/or handle to the request data for later use
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')){
-        const idToken = req.headers.authorization.split('Bearer ')[1];
-        admin.auth().verifyIdToken(idToken)
-            .then(decodedToken => {
-                res.locals.user.token = decodedToken;
+        res.locals.user.token = req.headers.authorization.split('Bearer ')[1];
+        admin.auth().verifyIdToken(res.locals.user.token)
+            .then(userID => {
+                res.locals.user.userID = userID;
                 return db.collection('users')
-                    .where('userID', '==', res.locals.user.token)
+                    .where('userID', '==', res.locals.user.userID)
                     .limit(1)
                     .get()
             })
             .then(data => {
-                res.locals.user.handle = data.docs[0].data().handle;
-                res.locals.isAuthorized = true;
+                res.locals.user.data = data.docs[0].data();
+                res.locals.isAuthenticated = true;
                 return next();
             })
             .catch(err => {
