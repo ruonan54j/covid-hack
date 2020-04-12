@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 const Post = (props) => {
-  
+  const handleBuyerClick = () =>{
+    document.getElementById("overlay-post").style.display = "block";  
+  }
+
   return (
-    <div class="post">
+    <div class="post" onClick={handleBuyerClick}>
       <div class="row">
       <div class= "col-8">
         <p class="post-author">Listed by {props.author}</p>

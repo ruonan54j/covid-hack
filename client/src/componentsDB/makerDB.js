@@ -9,7 +9,9 @@ const MakersDatabase = () => {
     return (
         <div className="makers-db">
         <PartFilesPopup />
-         <SearchBar className="search-position" placeholder="Search for a part"/>
+        <div className="search-container-makers">
+         <SearchBar placeholder="Search for a part"/>
+         </div>
          <PartListing/>
         </div>
     ) 

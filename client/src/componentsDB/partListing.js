@@ -27,7 +27,7 @@ const PartListing = () => {
     let partListing = [];
     for (var i = 0; i < partDetails.length; i++) {
         partListing.push(
-          <div className="col-6">
+          <div key={i} className="col-6">
           <Part title={partDetails[i].title} description={partDetails[i].description} img={partDetails[i].img}/> 
             </div>
         );

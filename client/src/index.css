@@ -118,6 +118,10 @@ start */
   margin-bottom: 3em;
 }
 
+.search-container-makers{
+  margin-left: 25%;
+  margin-right: 25%;
+}
 /*search end*/
 
 /*makers db start*/
@@ -147,7 +151,7 @@ start */
 
 .nav-page{
   color: black;
-  height: 100%;
+  height: 4em;
   padding: .5em 2em 0em 2em;
 }
 
@@ -157,7 +161,7 @@ start */
 
 .nav-profile{
   color: black;
-  height: 100%;
+  height: 4em;
   width: 15%;
   padding: .5em 2em 0em 2em;
 }
@@ -310,3 +314,145 @@ start */
 }
 
 /*listing end*/
+
+/*login/signup start*/
+.login-pg{
+  background: white;
+  width: 100%;
+  padding: 5%;
+  margin-top: 10%;
+}
+
+.signup-pg{
+  background: white;
+  width: 100%;
+  padding: 5%;
+}
+
+.login-input{
+  width: 60%;
+  margin-right: 30%;
+  margin-bottom: 1em;
+  padding: .5em;
+  border-radius: .3em;
+  border: solid .5px #bdbdbd;
+}
+
+.password-check{
+  color: #828282;
+}
+
+.login-btn{
+  margin-top: 1em;
+  width: 30%;
+  padding: .7em;
+  border: none;
+  background:#00609A;
+  color: white;
+  border-radius: .5em;
+}
+
+.login-title{
+  margin-bottom: 1em;
+  text-align: left;
+}
+
+.login-form-content{
+  text-align: left;
+}
+
+.wrapper-login{
+  background-color:white;
+  border-radius: .5em;
+  margin: 5% 10% 5% 10%;
+  height: 70vh; 
+}
+
+.login-image{
+  background: url('/login-image.png') no-repeat center center; 
+  background-size: cover;
+  border-top-right-radius: .5em;
+  border-bottom-right-radius: .5em;
+}
+
+.signup-link{
+  margin-top: 1em;
+}
+
+.signup-type{
+  color: #bdbdbd;  
+  border: solid .1em #bdbdbd;
+  margin: 0 2em 2em 0;
+  padding: 1em 1.2em;
+  border-radius: 1em;
+}
+
+.signup-type:hover{
+  color: #00609A;  
+  border: solid .1em #00609A;
+  margin: 0 2em 2em 0;
+  padding: 1em 1.2em;
+  border-radius: 1em;
+}
+
+.signup-type:click{
+  background-color: #00609A;  
+  color: white;
+  margin: 0 2em 2em 0;
+  padding: 1em 1.2em;
+  border-radius: 1em;
+}
+
+/*login/signup end*/
+
+/*post popup start*/
+.close-btn{
+  margin-bottom: 10%;  
+}
+
+.close-btn:hover{
+  color: #0d6abf; 
+}
+
+  #overlay-post{
+    position: fixed; 
+    width: 100%; 
+    height: 100%; 
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 100x;
+    background-color: rgba(0,0,0,0.5); 
+    z-index: 2; 
+    cursor: pointer; 
+}
+
+.popup-post-grey-text{
+  color: #adadad;
+  font-size: .8em;
+  margin-top: .5em;
+  margin-bottom: 0;
+}
+
+.popup-post-h1{
+  font-size: 2em;
+}
+
+.post-popup{
+  margin: 10% 27% auto 27%;
+  background: white;
+  width: 46%;
+  height: 65vh;
+  padding: 3em;
+  border-radius: .3em;
+  
+}
+
+.popup-desc-post{
+  margin-right: 4%;
+  font-size: 1em;
+  padding-right: 10%;
+}
+/*post popup end*/

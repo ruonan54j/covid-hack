@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import WrappedMap from './map';
 import PostListing from "./postListing";
-
+import PostPopup from "./postPopup";
 const MapPage = (props) => {
 
     return (
         <div className="row">
+                 <PostPopup />
         <div className="post-Listing-container">
             <PostListing/>
         </div>
