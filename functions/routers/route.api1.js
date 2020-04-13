@@ -1,13 +1,13 @@
 /* load all the libs */
-const express = require('express');
-const router        = express.Router();
-const userController = require('../controller/userController');
-const postController = require('../controller/postController');
-const partController = require('../controller/partController');
-const middleware = require('../middleware/middleware');
+const express           = require('express');
+const router            = express.Router();
+const userController    = require('../controller/userController');
+const postController    = require('../controller/postController');
+const partController    = require('../controller/partController');
+const middleware        = require('../middleware/middleware');
 
 const userRoute = "/users";
-const userID = "/:userID";
+const userHandle = "/:userHandle";
 
 const postRoute = "/posts";
 const postID = "/:postID";
@@ -17,39 +17,36 @@ const partID = "/:partID";
 
 /* all route will write here */
 
-// index endpoint
+// Index endpoint - may not need this
 router.get("/" , (req , res ,next) => {
     res.json({msg:"ok"});
 });
 
-
-/* user endpoints */
-router.get(userRoute + userID, userController.findUser);
-router.put(userRoute + userID, userController.updateUser);
+// Login Endpoint
+router.post("/login", userController.loginUser);
 // Sign up user
-router.post(userRoute, userController.signUpUser, middleware.sendConfirmationEmail);
-router.delete(userRoute + userID, userController.removeUser);
+router.post("/signup", userController.signUpUser, middleware.sendConfirmationEmail);
+// Remove user
+router.delete(userRoute + userHandle, userController.removeUser);
 
-// user's collection endpoint
-router.put(userRoute + userID + "/collection" + partID, userController.updateToUserCollection)
-router.delete(userRoute + userID + "/collection" + partID, userController.removeFromUserCollection)
-// router.get(userRoute + "/collection", controller)
+// User Endpoints
+router.get(userRoute + userHandle, userController.findUser);
+router.put(userRoute + userHandle, userController.updateUser);
+// User Collection endpoint
+router.put(userRoute + userHandle + "/collection" + partID, userController.updateToUserCollection)
+router.delete(userRoute + userHandle + "/collection" + partID, userController.removeFromUserCollection)
 
-/* post endpoints */
+// Post Endpoints
 router.get(postRoute + postID, postController.getPost);
-// I'm assuming getting posts by location and uid will be done through query strings?
 router.get(postRoute, postController.findPost);
 router.put(postRoute + postID, postController.updatePost);
 router.post(postRoute, postController.createPost);
 router.delete(postRoute + postID, postController.deletePost);
 
-/* part endpoints */
+// Part Endpoints
 router.get(partRoute + partID, partController.getPart);
-// Using query strings here too...
 router.get(partRoute, partController.findPart);
 router.post(partRoute, partController.createPart);
 router.put(partRoute + partID, partController.updatePart);
 
-
-/* end of route  */
 module.exports = router;

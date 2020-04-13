@@ -65,4 +65,6 @@ exports.reduceUserDetails = (data) => {
 
     // Add fields as necessary
 
+    return userDetails;
+
 };

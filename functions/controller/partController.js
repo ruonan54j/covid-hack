@@ -7,9 +7,9 @@ exports.findPart = function(req , res , next){
     partCollection.doc(id).get().then((snapshot) => {
         if (!snapshot.exists){
             console.log("part id not found ");
-            res.status(204).json({error:"Part with id : " + id + " doesn't exist"});
+            return res.status(204).json({error:"Part with id : " + id + " doesn't exist"});
         }else{
-            res.status(200).json(snapshot);
+            return res.status(200).json(snapshot);
         }
     }).catch(err => {
         console.log("error getting data " + err);
@@ -19,17 +19,22 @@ exports.findPart = function(req , res , next){
 
 // get part will send all the parts data , if you want to search data , you can use findPart()
 exports.getPart = function(req , res , next){
-    partCollection.get().then((data) => {
-        parts = [];
-        data.forEach(d => {
-            data.push(d.data());
+    partCollection.get()
+        .then((data) => {
+            const parts = [];
+            data.forEach(d => {
+                data.push(d.data());
+            });
+            if (parts.length > 0){
+                return res.status(200).json(parts);
+            }else{
+                return res.status(204).json({msg:"No parts data"});
+            }
+        })
+        .catch(err => {
+            console.log("error getting data " + err);
+            res.status(500).json({msg:"can't retrive data"});
         });
-        if (parts.length > 0){
-            res.status(200).json(parts);
-        }else{
-            res.status(204).json({msg:"No parts data"});
-        }
-    })
 }
 
 exports.createPart = function(req , res , next){
@@ -45,7 +50,7 @@ exports.updatePart = function(req , res , next){
     var data = req.body;
     var id   = req.params.partID;
     var getData = partCollection.doc(id).update(data).then((wr) => {
-        res.status(200).json({msg:"ok"});
+        return res.status(200).json({msg:"ok"});
     }).catch((err) => {
         console.log("error : " + err);
         res.status(500).json({msg:"internal error"});

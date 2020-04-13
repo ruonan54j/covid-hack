@@ -1,9 +1,10 @@
-const {db} = require('../util/admin');
+const {admin, db} = require('../util/admin');
 const postCollection = db.collection('posts');
+const devAuth = require('../util/env').DevAuth;
 
-exports.findPost = function(req, res, next){
+exports.findPost = function(req, res){
     
-    // Will add querying / pagination limits to limit posts returned
+    // TODO: Add querying / pagination limits to limit posts returned
     postCollection
         .get()
         .then((snapShot) => {
@@ -22,7 +23,7 @@ exports.findPost = function(req, res, next){
     
 }
 
-exports.getPost = function(req , res , next){
+exports.getPost = function(req, res){
     let getPost = postCollection.doc(req.params.postID)
         .get()
         .then((doc) => {
@@ -44,7 +45,14 @@ exports.getPost = function(req , res , next){
         });
 }
 
-exports.updatePost = function(req , res , next){
+exports.updatePost = function(req, res){
+
+    if(!res.locals.isAuthenticated || devAuth)
+        res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
+
+    if(!res.locals.user.posts.includes(req.body.postID))
+        res.status(403).json({error: 'Forbidden Post Edit', errorMessage: "Not in user's post list"}).send();
+
     let post = req.body;
 
     // TODO: Validate Post Data Fields
@@ -65,19 +73,51 @@ exports.updatePost = function(req , res , next){
 
 }
 
-exports.createPost = function(req , res , next){
+exports.createPost = function(req, res){
+
+    if(!res.locals.isAuthenticated || devAuth)
+        res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
+
     let post = req.body;
     // TODO: Validate Post data fields
 
-    let addPost = db.collection('posts').add(post);
-    res.status(200);
+    db.collection('posts').add(post)
+        .then((dataRef) => {
+            return db.doc(`/users/${res.locals.user.handle}`).update({
+                posts: admin.firestore.FieldValue.arrayUnion(dataRef.id)
+            });
+        })
+        .then(() => {
+            return res.status(201).json({message: 'Post Created Successfully'});
+        })
+        .catch(err => {
+            console.log(err);
+            return res.status(500).json({error: err.code, errorMessage: err.message});
+        });
+
 }
 
-exports.deletePost = function(req , res , next){
+exports.deletePost = function(req , res){
 
-    let deleteDoc = postCollection.doc(req.params.postID).delete();
-    res.status(200);
+    if(!req.params.hasOwnProperty('postID') && req.params.postID.trim() === "")
+        res.status(400).json({error: 'No Post ID defined'}).send();
+
+    if(!res.locals.isAuthenticated)
+        res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
+
+    if(!res.locals.user.posts.includes(req.params.postID))
+        res.status(403).json({error: 'Forbidden Post Edit', errorMessage: "Not in user's post list"}).send();
+
+    postCollection.doc(req.params.postID).delete()
+        .then(() => {
+            return res.status(200).json({message: 'Post deletion successful'}).send();
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({error: err.code, errorMessage: err.message}).send();
+        })
 
 }
 
+// Possible Test Function
 // exports.generateData = function()

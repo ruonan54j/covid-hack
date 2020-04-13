@@ -1,6 +1,7 @@
 const {firebase, firebaseConfig} = require('../util/firebase');
 const {admin, db} = require('../util/admin');
 const {validateSignUpData, reduceUserDetails} = require('../util/validation');
+const devAuth = require('../util/env').DevAuth;
 
 exports.findUser = function(req, res){
 
@@ -19,7 +20,6 @@ exports.findUser = function(req, res){
 
 }
 
-// eslint-disable-next-line consistent-return
 exports.signUpUser = function(req, res){
 
     const {valid, errors} = validateSignUpData(req.body);
@@ -29,7 +29,7 @@ exports.signUpUser = function(req, res){
     let noImg = newUser.isSupplier ? 'no-img-supplier.png' : 'no-img-buyer.png';
 
     let token, userID;
-    db.doc(`/users/${newUser.handle}`)
+    return db.doc(`/users/${newUser.handle}`)
         .get()
         .then((doc) => {
             if (doc.exists)
@@ -72,7 +72,6 @@ exports.signUpUser = function(req, res){
         });
 }
 
-// eslint-disable-next-line consistent-return
 exports.loginUser = function(req, res){
 
     const user = {
@@ -84,9 +83,9 @@ exports.loginUser = function(req, res){
 
     if (isEmpty(errors.email)) errors.email = 'Must not be empty'
     if (isEmpty(errors.password)) errors.password = 'Must not be empty'
-    if (Object.keys(errors) > 0) return res.status(400).json(errors);
+    if (Object.keys(errors) > 0) res.status(400).json(errors).send();
 
-    firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+    return firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(data => {
             return data.user.getIdToken();
         })
@@ -95,14 +94,18 @@ exports.loginUser = function(req, res){
         })
         .catch(err => {
             console.error("Error signing in: " + err);
-            return res.status(500).json({error: err.code});
+            return res.status(500).json({error: err.code}).send();
         });
 
 }
 
 exports.updateUser = function(req, res){
+
+    if(!res.locals.isAuthenticated || devAuth)
+        return res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'}).send();
+
     let userDetails = reduceUserDetails(req.body);
-    db.doc(`/users/${res.locals.user.handle}`).update(userDetails)
+    return db.doc(`/users/${res.locals.user.handle}`).update(userDetails)
         .then(() => {
             return res.status(200).json({message: "User updated successfully"})
         })
@@ -112,6 +115,10 @@ exports.updateUser = function(req, res){
 }
 
 exports.removeUser = function(req, res){
+
+    if(!res.locals.isAuthenticated || devAuth)
+        res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'}).send();
+
     admin.auth().deleteUser(res.locals.user.userID)
         .then(() => {
             return db.doc(`/users/${res.locals.user.handle}`).delete();
@@ -137,6 +144,10 @@ exports.emailRecovery = function(req, res){
 }
 
 exports.uploadProfileImage = function(req, res){
+
+    if(!res.locals.isAuthenticated || devAuth)
+        return res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'});
+
     const BusBoy = require('busboy');
     const path = require('path');
     const os = require('os');
@@ -151,7 +162,7 @@ exports.uploadProfileImage = function(req, res){
         console.log(mimeType);
 
         if(mimeType !== 'image/jpeg' && mimeType !== 'image/png')
-            return res.status(400).json({error: 'Wrong file type submitted'});
+            return res.status(415).json({error: 'Unsupported file type submitted'});
 
         const imageExtension = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2).toLowerCase();
         imageFilename = `${res.locals.user.handle}-${uuidv4()}.${imageExtension}`;
@@ -171,15 +182,15 @@ exports.uploadProfileImage = function(req, res){
                 }
             })
             .then(() => {
-                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageFileName}?alt=media`;
+                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageFilename}?alt=media`;
                 return db.doc(`/users/${res.locals.user.handle}`).update({imageUrl: imageUrl});
             })
             .then(() => {
                 return res.status(200).json({message: 'Image uploaded successfully'})
             })
             .catch(err => {
-                res.status(500).json({error: err.code});
+                return res.status(500).json({error: err.code});
             })
     });
-    busboy.end(req.rawBody);
+    return busboy.end(req.rawBody);
 }

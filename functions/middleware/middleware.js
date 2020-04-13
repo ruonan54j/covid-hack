@@ -1,7 +1,7 @@
 const {firebase} = require('../util/firebase');
 const {admin, db} = require('../util/admin');
 
-// authenticate user on login pages
+// Authenticate user on protected routes
 exports.authenticateUser = function(req, res, next){
 
     // Default isAuthorized is false, until token is successfully verified
@@ -9,8 +9,7 @@ exports.authenticateUser = function(req, res, next){
 
     // Check for a valid authentication token in request header
     // If there's a token present, check with Firebase auth if token is valid
-    // If valid, add the userID and/or handle to the request data for later use
-
+    // If valid, add the userID and/or handle to the response-local data for later use
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')){
         res.locals.user.token = req.headers.authorization.split('Bearer ')[1];
         admin.auth().verifyIdToken(res.locals.user.token)
@@ -38,7 +37,7 @@ exports.authenticateUser = function(req, res, next){
 
 }
 
-// on signUp
+// Send Confirmation Email
 exports.sendConfirmationEmail = function(req, res, next){
 
     // After data is initialized, send a confirmation email for verification
@@ -46,15 +45,7 @@ exports.sendConfirmationEmail = function(req, res, next){
 
 }
 
-
-// This may or may not be additional middleware - keeping it here for now
-
-// when post location is updated/created 
-exports.getLatLonPost = function(){
-
-}
-
-// when user location is updated/created 
-exports.getLatLonUser = function(){
+// Dependent on Latitude/Longitude
+exports.getLatLon = function(){
 
 }
