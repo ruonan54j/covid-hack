@@ -61,7 +61,7 @@ exports.signUpUser = function(req, res){
             return db.doc(`/users/${newUser.handle}`).set(userCredentials);
         })
         .then(() => {
-            return res.status(201).json({ token });
+            return res.status(201).json({ userID });
         })
         .catch((err) => {
             console.error(err);
@@ -87,10 +87,7 @@ exports.loginUser = function(req, res){
 
     return firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(data => {
-            return data.user.getIdToken();
-        })
-        .then(token => {
-            return res.status(200).json(token).send();
+            return res.status(200).json(data.user.uid).send();
         })
         .catch(err => {
             console.error("Error signing in: " + err);

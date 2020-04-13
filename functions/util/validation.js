@@ -4,6 +4,9 @@ const isEmail = (email) => {
 };
 
 const isEmpty = (string) => {
+    if (string === null) {
+        return false;
+    }
     return string.trim() === '';
 };
 
@@ -22,9 +25,8 @@ exports.validateSignUpData = (newUser) => {
         else if (!isEmail(newUser.email)) errors.email = 'Must be a valid email address';
 
         // Password fields
-        if (!newUser.hasOwnProperty('password') || !newUser.hasOwnProperty('confirmPassword')) errors.password = 'Must not be undefined'
-        if (isEmpty(newUser.password) || isEmpty(newUser.confirmPassword)) errors.password = "Can't use empty password"
-        if (newUser.password !== newUser.confirmPassword) errors.confirmPassword = 'Passwords must match';
+        if (!newUser.hasOwnProperty('password')) errors.password = 'Must not be undefined'
+        if (isEmpty(newUser.password)) errors.password = "Can't use empty password"
     }
     else if (newUser.signUpMethod === 'Google'){
         // Sign Up Token
