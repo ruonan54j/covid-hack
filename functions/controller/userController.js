@@ -22,9 +22,15 @@ exports.findUser = function(req, res){
 
 exports.signUpUser = function(req, res){
 
-    const {valid, errors} = validateSignUpData(req.body);
+    const newUser = {
+        email: req.body.email,
+        password: req.body.password,
+        handle: req.body.handle,
+        isSupplier: req.body.isSupplier,
+        signUpMethod: req.body.signUpMethod
+    }
+    const {valid, errors} = validateSignUpData(newUser);
     if (!valid) return res.status(400).json(errors);
-    const newUser = req.body;
 
     let noImg = newUser.isSupplier ? 'no-img-supplier.png' : 'no-img-buyer.png';
 

@@ -11,33 +11,33 @@ exports.validateSignUpData = (newUser) => {
     let errors = {};
 
     // Handle field
-    if (!newUser.hasOwnProperty('handle') || isEmpty(newUser.handle)) errors.handle = 'Must not be empty';
+    if (newUser.handle === undefined || isEmpty(newUser.handle)) errors.handle = 'Must not be undefined or empty';
 
     // Sign Up Method
-    if (!newUser.hasOwnProperty('signUpMethod') || isEmpty(newUser.signUpMethod)) errors.signUpMethod = 'Must not be empty (Google or Email)'
-    else if (newUser.signUpMethod !== 'Email' && newUser.signUpMethod !== 'Google') errors.signUpMethod = 'Not a valid sign up method';
-    if (newUser.signUpMethod === 'Email'){
+    if (newUser.handle === undefined || isEmpty(newUser.signUpMethod)) errors.signUpMethod = 'Must not be empty (Google or Email)'
+    if (newUser.signUpMethod.toLowerCase() === 'email'){
         // Email Field
-        if (!newUser.hasOwnProperty('email') || isEmpty(newUser.email)) errors.email = 'Must not be empty';
+        if (newUser.email === undefined || isEmpty(newUser.email)) errors.email = 'Must not be undefined or empty';
         else if (!isEmail(newUser.email)) errors.email = 'Must be a valid email address';
 
-        // Password fields
-        if (!newUser.hasOwnProperty('password') || !newUser.hasOwnProperty('confirmPassword')) errors.password = 'Must not be undefined'
-        if (isEmpty(newUser.password) || isEmpty(newUser.confirmPassword)) errors.password = "Can't use empty password"
-        if (newUser.password !== newUser.confirmPassword) errors.confirmPassword = 'Passwords must match';
+        // Password Field
+        if (newUser.password === undefined || isEmpty(newUser.password)) errors.password = 'Must not be undefined or empty'
     }
-    else if (newUser.signUpMethod === 'Google'){
+    else if (newUser.signUpMethod.toLowerCase() === 'google'){
         // Sign Up Token
         if (!newUser.hasOwnProperty('signUpToken') || isEmpty(newUser.signUpToken)) errors.signUpToken = 'signUpToken not optional';
     }
+    else
+        errors.signUpMethod = 'Not a valid sign up method';
 
     // User Type (is Supplier?)
-    if (!newUser.hasOwnProperty('isSupplier')) errors.isSupplier = 'Not optional - must indicate true or false (boolean)'
+    if (!newUser.isSupplier === undefined) errors.isSupplier = 'Not optional - must indicate true or false (boolean)'
 
     return {
         errors,
         valid: Object.keys(errors).length === 0
     };
+
 };
 
 exports.reduceUserDetails = (data) => {
