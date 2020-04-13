@@ -387,6 +387,15 @@ start */
   border-radius: 1em;
 }
 
+.signup-type-chosen{
+  color: white;  
+  background-color: #00609A;
+  border: none;
+  margin: 0 2em 2em 0;
+  padding: 1em 1.2em;
+  border-radius: 1em;
+}
+
 .signup-type:hover{
   color: #00609A;  
   border: solid .1em #00609A;
@@ -401,6 +410,10 @@ start */
   margin: 0 2em 2em 0;
   padding: 1em 1.2em;
   border-radius: 1em;
+}
+
+.error{
+  color:#bf281d;
 }
 
 /*login/signup end*/

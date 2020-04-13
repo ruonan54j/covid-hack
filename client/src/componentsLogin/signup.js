@@ -1,20 +1,125 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import validateEmail from "../utils/utils";
+import usePasswordValidator from "../utils/passwordValidator";
+import { UserContext } from "../UserContext";
+
 const SignUp = () => {
+  const {currentUser, setCurrentUser} = useContext(UserContext);
+  
+  const [username, setUsername] = useState("");
+  const [isSupplier, setIsSupplier] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const [password, setPassword, passwordError] = usePasswordValidator({
+    min: 8,
+    max: 15
+  });
+ 
+  const handleTypeBtn=(e, value)=>{
+    e.preventDefault();
+    setIsSupplier(value);
+  }
+
+  const handleSubmitBtn=(e) => {
+    e.preventDefault();
+    let sendData = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        { 
+          "handle": username.toString(),	
+          "email": email.toString(),
+          "password": password.toString(),
+          "isSupplier": isSupplier,
+          "signUpMethod": "Email"
+      })
+    };
+
+    console.log("body",sendData.body);
+
+    fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/signup', sendData)
+    .then(res => {
+      return res.json().then((data) =>{
+        console.log("DATA",data);
+        if (res.status == 201){
+          let uid = data.userID;
+          console.log("uid", uid);
+          return uid;
+        }
+        return null;
+      })
+    })
+      .then(uid => {
+        if (uid!==null) {
+          fetch("https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/users/"+uid)
+          .then((res) => {
+            res.json().then((data)=>{
+              console.log("reached",data);
+              setCurrentUser(data);
+            })
+          })
+        }
+      });
+
+  }
+
+  useEffect(
+    () => {
+      if (!email) {
+        setEmailError("");
+      } else {
+        if (validateEmail(email)) {
+          setEmailError("");
+        } else {
+          setEmailError("Please enter a valid email.");
+        }
+      }
+    },
+    [email]
+  );
+
+  useEffect(
+    () => {
+      if (!confirmPassword || !password) {
+        setConfirmPasswordError("");
+      } else {
+        if (password !== confirmPassword) {
+          setConfirmPasswordError("The passwords must match.");
+        } else {
+          setConfirmPasswordError("");
+        }
+      }
+    },
+    [password, confirmPassword]
+  );
+
     return (
     <div className="signup-pg">
         <h1 className="login-title">Sign-up</h1>
         <form>
             <div className="login-form-content">
-          <button className="signup-type">I am a buyer</button> 
-          <button className="signup-type">I am a supplier</button>
+          <button className={(isSupplier)?"signup-type":"signup-type-chosen"} onClick={(e)=>{handleTypeBtn(e, false)}}>I am a buyer</button> 
+          <button className={(!isSupplier)?"signup-type":"signup-type-chosen"} onClick={(e)=>{handleTypeBtn(e, true)}}>I am a supplier</button>
             <input placeholder="email"
-              className="login-input" />
-            <input placeholder="username" className="login-input"/>
-          <input placeholder="password" className="login-input" group type="password"/>
-          
-          <input placeholder="confirm password" className="login-input" group type="password"/>
-           <p className="password-check">password must include at least 6 letters and 1 number</p>
-            <button className="login-btn">Log In</button>
+            onChange={e => setEmail(e.target.value)}
+            className="login-input" />
+              <div className="error">{emailError}</div>
+            <input placeholder="username"
+            onChange={e => setUsername(e.target.value)}
+            className="login-input"/>
+          <input placeholder="password"
+          onChange={e => setPassword(e.target.value)} className="login-input" group type="password"/>
+          <div className="error">{passwordError}</div>
+          <input placeholder="confirm password" 
+          onChange={e => setConfirmPassword(e.target.value)}
+          className="login-input" group type="password"/>
+          <div className="error">{confirmPasswordError}</div>
+            <button className="login-btn" onClick={(e)=>handleSubmitBtn(e)}>Sign Up</button>
          
           <p className="signup-link">Have an account? <a>Log in here</a></p>
           </div>
