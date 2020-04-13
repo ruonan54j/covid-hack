@@ -56,7 +56,7 @@ const SignUp = () => {
     })
       .then(uid => {
         if (uid!==null) {
-          fetch("https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/users/"+uid)
+          fetch("https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/users/"+username)
           .then((res) => {
             res.json().then((data)=>{
               console.log("reached",data);

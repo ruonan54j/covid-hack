@@ -101,7 +101,7 @@ exports.loginUser = function(req, res) {
 
     return firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(data => {
-            return res.status(200).json(data.user.uid).send();
+            return res.status(200).json(data.user).send();
         })
         .catch(err => {
             console.error("Error signing in: " + err);
