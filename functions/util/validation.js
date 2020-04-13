@@ -14,32 +14,39 @@ exports.validateSignUpData = (newUser) => {
     let errors = {};
 
     // Handle field
-    if (!newUser.hasOwnProperty('handle') || isEmpty(newUser.handle)) errors.handle = 'Must not be empty';
+    if (newUser.handle === undefined || isEmpty(newUser.handle)) errors.handle = 'Must not be undefined or empty';
 
     // Sign Up Method
-    if (!newUser.hasOwnProperty('signUpMethod') || isEmpty(newUser.signUpMethod)) errors.signUpMethod = 'Must not be empty (Google or Email)'
-    else if (newUser.signUpMethod !== 'Email' && newUser.signUpMethod !== 'Google') errors.signUpMethod = 'Not a valid sign up method';
-    if (newUser.signUpMethod === 'Email'){
+    if (newUser.handle === undefined || isEmpty(newUser.signUpMethod)) errors.signUpMethod = 'Must not be empty (Google or Email)'
+    if (newUser.signUpMethod.toLowerCase() === 'email'){
         // Email Field
-        if (!newUser.hasOwnProperty('email') || isEmpty(newUser.email)) errors.email = 'Must not be empty';
+        if (newUser.email === undefined || isEmpty(newUser.email)) errors.email = 'Must not be undefined or empty';
         else if (!isEmail(newUser.email)) errors.email = 'Must be a valid email address';
 
+<<<<<<< HEAD
         // Password fields
         if (!newUser.hasOwnProperty('password')) errors.password = 'Must not be undefined'
         if (isEmpty(newUser.password)) errors.password = "Can't use empty password"
+=======
+        // Password Field
+        if (newUser.password === undefined || isEmpty(newUser.password)) errors.password = 'Must not be undefined or empty'
+>>>>>>> 050b80fcefcc70a14d0d168fae436a8a701aee45
     }
-    else if (newUser.signUpMethod === 'Google'){
+    else if (newUser.signUpMethod.toLowerCase() === 'google'){
         // Sign Up Token
         if (!newUser.hasOwnProperty('signUpToken') || isEmpty(newUser.signUpToken)) errors.signUpToken = 'signUpToken not optional';
     }
+    else
+        errors.signUpMethod = 'Not a valid sign up method';
 
     // User Type (is Supplier?)
-    if (!newUser.hasOwnProperty('isSupplier')) errors.isSupplier = 'Not optional - must indicate true or false (boolean)'
+    if (!newUser.isSupplier === undefined) errors.isSupplier = 'Not optional - must indicate true or false (boolean)'
 
     return {
         errors,
         valid: Object.keys(errors).length === 0
     };
+
 };
 
 exports.reduceUserDetails = (data) => {
