@@ -3,6 +3,13 @@ const {admin, db} = require('../util/admin');
 const {validateSignUpData, reduceUserDetails} = require('../util/validation');
 const devAuth = require('../util/env').DevAuth;
 
+const isEmpty = (string) => {
+    if (string === null || string === undefined) {
+        return false;
+    }
+    return string.trim() === '';
+};
+
 exports.findUser = function(req, res){
 
     db.doc(`/users/${req.params.handle}`)
@@ -78,17 +85,18 @@ exports.signUpUser = function(req, res){
         });
 }
 
-exports.loginUser = function(req, res){
+exports.loginUser = function(req, res) {
 
     const user = {
         email: req.body.email,
         password: req.body.password,
     }
 
+    console.log(user);
     let errors = {}
 
-    if (isEmpty(errors.email)) errors.email = 'Must not be empty'
-    if (isEmpty(errors.password)) errors.password = 'Must not be empty'
+    if (isEmpty(user.email)) errors.email = 'Must not be empty'
+    if (isEmpty(user.password)) errors.password = 'Must not be empty'
     if (Object.keys(errors) > 0) res.status(400).json(errors).send();
 
     return firebase.auth().signInWithEmailAndPassword(user.email, user.password)
@@ -97,7 +105,7 @@ exports.loginUser = function(req, res){
         })
         .catch(err => {
             console.error("Error signing in: " + err);
-            return res.status(500).json({error: err.code}).send();
+            return res.status(500).json({error: err}).send();
         });
 
 }

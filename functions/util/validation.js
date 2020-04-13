@@ -23,14 +23,8 @@ exports.validateSignUpData = (newUser) => {
         if (newUser.email === undefined || isEmpty(newUser.email)) errors.email = 'Must not be undefined or empty';
         else if (!isEmail(newUser.email)) errors.email = 'Must be a valid email address';
 
-<<<<<<< HEAD
-        // Password fields
-        if (!newUser.hasOwnProperty('password')) errors.password = 'Must not be undefined'
-        if (isEmpty(newUser.password)) errors.password = "Can't use empty password"
-=======
         // Password Field
         if (newUser.password === undefined || isEmpty(newUser.password)) errors.password = 'Must not be undefined or empty'
->>>>>>> 050b80fcefcc70a14d0d168fae436a8a701aee45
     }
     else if (newUser.signUpMethod.toLowerCase() === 'google'){
         // Sign Up Token
