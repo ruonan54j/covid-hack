@@ -71,3 +71,18 @@ exports.reduceUserDetails = (data) => {
     return userDetails;
 
 };
+
+exports.validateNewPostData = (post) => {
+
+    let errors = {};
+    // Basic Validation
+    if(!post.hasOwnProperty('userHandle') || isEmpty(post.userHandle)) errors.userHandle = 'Must not be empty'
+    if(!post.hasOwnProperty('title') || isEmpty(post.title)) errors.title = 'Must not be empty'
+    // Add additional as necessary
+
+    return {
+        errors,
+        valid: Object.keys(errors).length === 0
+    };
+
+}
