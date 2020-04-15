@@ -115,7 +115,7 @@ exports.loginUser = function(req, res) {
 
 exports.updateUser = function(req, res){
 
-    if(!res.locals.isAuthenticated || devAuth)
+    if(!res.locals.isAuthenticated && !devAuth)
         return res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'}).send();
 
     let userDetails = reduceUserDetails(req.body);
@@ -130,7 +130,7 @@ exports.updateUser = function(req, res){
 
 exports.removeUser = function(req, res){
 
-    if(!res.locals.isAuthenticated || devAuth)
+    if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'}).send();
 
     admin.auth().deleteUser(res.locals.user.userID)
@@ -159,7 +159,7 @@ exports.emailRecovery = function(req, res){
 
 exports.uploadProfileImage = function(req, res){
 
-    if(!res.locals.isAuthenticated || devAuth)
+    if(!res.locals.isAuthenticated && !devAuth)
         return res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'});
 
     const BusBoy = require('busboy');

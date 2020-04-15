@@ -49,7 +49,7 @@ exports.getPost = function(req, res){
 
 exports.updatePost = function(req, res){
 
-    if(!res.locals.isAuthenticated || devAuth)
+    if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
 
     if(!res.locals.user.posts.includes(req.body.postID))
@@ -108,7 +108,7 @@ exports.deletePost = function(req , res){
     if(!req.params.hasOwnProperty('postID') && req.params.postID.trim() === "")
         res.status(400).json({error: 'No Post ID defined'}).send();
 
-    if(!res.locals.isAuthenticated)
+    if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
 
     if(!res.locals.user.posts.includes(req.params.postID))
