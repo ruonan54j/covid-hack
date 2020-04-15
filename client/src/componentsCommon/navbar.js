@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {Link} from "react-router-dom";
 
 export const Navigationbar = (props) => {
-  const [currentPage, setcurrentPage] = useState(1);
+  const [currentPage, setcurrentPage] = useState(2);
 
     return (
       <div>

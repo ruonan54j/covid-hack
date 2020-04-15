@@ -44,8 +44,8 @@ router.post(postRoute, postController.createPost);
 router.delete(postRoute + postID, postController.deletePost);
 
 // Part Endpoints
-router.get(partRoute + partID, partController.getPart);
-router.get(partRoute, partController.findPart);
+router.get(partRoute + partID, partController.findPart);
+router.get(partRoute, partController.getPart);
 router.post(partRoute, partController.createPart);
 router.put(partRoute + partID, partController.updatePart);
 

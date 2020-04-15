@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../UserContext";
+import {Link} from "react-router-dom";
 
 const Login = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
@@ -47,7 +48,7 @@ const Login = () => {
             onChange={e => setPassword(e.target.value)}
             group type="password"/>
             <button className="login-btn" onClick={e => handleLoginSubmit(e)}>Log In</button>
-          <p className="signup-link">Don't have an account? <a>Sign up here</a></p>
+          <p className="signup-link">Don't have an account? <Link to="/signup">Sign up here</Link></p>
           </div>
         </form>
       </div>);

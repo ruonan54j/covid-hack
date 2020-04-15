@@ -8,18 +8,18 @@ const PostPopup = () => {
     return (
       <div id="overlay-post">
         
-        <div class="post-popup">
+        <div className="post-popup">
           
-          <div class="row">
-          <div class="popup-col popup-desc-post">
-            <div class="close-btn" onClick={handleClickClose}>X close</div>
-            <p class="popup-post-grey-text">listed by username</p>
-          <h1 class="popup-post-h1">Ventilator Valves</h1>
+          <div className="row">
+          <div className="popup-col popup-desc-post">
+            <div className="close-btn" onClick={handleClickClose}>X close</div>
+            <p className="popup-post-grey-text">listed by username</p>
+          <h1 className="popup-post-h1">Ventilator Valves</h1>
           
           <p>3.5 kilometers away</p>
             <div className="row">
               <div className="col">
-                <p class="popup-post-grey-text">PRODUCTION CAPACITY</p>
+                <p className="popup-post-grey-text">PRODUCTION CAPACITY</p>
                 <p>100pcs / week</p>
               </div>
               <div>
@@ -41,17 +41,17 @@ const PostPopup = () => {
             <p>adress, city, postal code</p>
         </div>
         
-          <div class="popup-col">
-            <div class="popup-img-div">
-            <img class="popup-img" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
+          <div className="popup-col">
+            <div className="popup-img-div">
+            <img className="popup-img" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
             </div>
-            <div class="popup-img-div">
-            <img class="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
+            <div className="popup-img-div">
+            <img className="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
   
         
-            <img class="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
+            <img className="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
          
-            <img class="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
+            <img className="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
             </div>
         </div>
          </div>

@@ -6,25 +6,25 @@ const Post = (props) => {
   }
 
   return (
-    <div class="post" onClick={handleBuyerClick}>
-      <div class="row">
-      <div class= "col-8">
-        <p class="post-author">Listed by {props.author}</p>
-      <h1 class="post-title">{props.title}</h1>
-      <p class="post-distance">{props.distance} kilometers away</p>
-        <div class="row">
-          <div class="col">
-            <p class="post-grey-text">PRODUCTION CAPACITY</p>
+    <div className="post" onClick={handleBuyerClick}>
+      <div className="row">
+      <div className= "col-8">
+        <p className="post-author">Listed by {props.author}</p>
+      <h1 className="post-title">{props.title}</h1>
+      <p className="post-distance">{props.distance} kilometers away</p>
+        <div className="row">
+          <div className="col">
+            <p className="post-grey-text">PRODUCTION CAPACITY</p>
             <p>{props.capacity} / week</p>
           </div>
-          <div class="col">
-          <p class="post-grey-text">COST PER PIECE</p>
+          <div className="col">
+          <p className="post-grey-text">COST PER PIECE</p>
             <p> ${props.cost} </p></div>
         </div>
       
       </div>
-      <div class="col-4 right-div">
-        <img src={props.img} alt = "valves" class="post-img"/>
+      <div className="col-4 right-div">
+        <img src={props.img} alt = "valves" className="post-img"/>
       </div>
       </div>
     </div>

@@ -41,7 +41,7 @@ exports.signUpUser = function(req, res){
 
     let noImg = newUser.isSupplier ? 'no-img-supplier.png' : 'no-img-buyer.png';
 
-    let token, userID;
+    let token, userID, retUser;
     return db.doc(`/users/${newUser.handle}`)
         .get()
         .then((doc) => {
@@ -58,6 +58,7 @@ exports.signUpUser = function(req, res){
         })
         .then(data => {
             userID = data.user.uid;
+            retUser = data.user;
             return data.user.getIdToken();
         })
         .then((idToken) => {
@@ -73,8 +74,8 @@ exports.signUpUser = function(req, res){
             };
             return db.doc(`/users/${newUser.handle}`).set(userCredentials);
         })
-        .then(() => {
-            return res.status(201).json({ userID });
+        .then((user) => {
+            return res.status(201).json({ retUser });
         })
         .catch((err) => {
             console.error(err);

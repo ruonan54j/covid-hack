@@ -1,6 +1,6 @@
 // TODO : making WAF for security 
 const {db} = require('../util/admin');
-const partCollection = db.collection('part');
+const partCollection = db.collection('parts');
 
 exports.findPart = function(req , res , next){
     var id = req.body.partID;
@@ -23,7 +23,7 @@ exports.getPart = function(req , res , next){
         .then((data) => {
             const parts = [];
             data.forEach(d => {
-                data.push(d.data());
+                parts.push(d.data());
             });
             if (parts.length > 0){
                 return res.status(200).json(parts);

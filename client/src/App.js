@@ -8,15 +8,20 @@ import MapPage from './componentsMap/mapPage';
 import Login from './componentsLogin/login';
 import SignUp from './componentsLogin/signup';
 import WrapperLogin from './componentsLogin/wrapperLogin';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { UserContext } from "./UserContext";
 
 function App() {
+
   const [currentUser, setCurrentUser] = useState(UserContext);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   let apiKey = process.env.REACT_APP_GOOGLE_KEY;
   useEffect(
     () => {
-      console.log("current user updated",currentUser);
+      if(currentUser._currentValue != false){
+        console.log("current user updated", currentUser);
+        setIsAuthenticated(true);
+      }
     },
     [currentUser]
   );
@@ -26,10 +31,27 @@ function App() {
     <Navigationbar name="Bob Y"/>
       <div className="App">
         <Switch>
-        <Route path="/all-listings" render={routeProps => <MapPage {...routeProps} apiKey={apiKey}/>} />
-        <Route path="/login" render = {routeProps => <WrapperLogin {...routeProps}><Login/></WrapperLogin>}/>
-        <Route path="/signup" render = {routeProps => <WrapperLogin {...routeProps}><SignUp/></WrapperLogin>}/>
-        <Route path="/" component={MakersDatabase} />
+        <Route path="/all-listings" render={(props) => (
+    isAuthenticated
+      ? <MapPage {...props} apiKey={apiKey}/>
+      : <Redirect to='/login' />)}
+      />
+        <Route path="/login" 
+        render={(props) => (
+          isAuthenticated
+            ? <Redirect to='/' />
+            : <WrapperLogin {...props}><Login/></WrapperLogin>)}
+        />
+        <Route path="/signup" 
+        render={(props) => (
+          isAuthenticated
+            ? <Redirect to='/' />
+            : <WrapperLogin {...props}><SignUp/></WrapperLogin>)}/>
+        <Route path="/" 
+        render={(props) => (
+          isAuthenticated
+            ? <MakersDatabase/>
+            : <Redirect to='/login' />)} />
       </Switch>
     </div>
     </UserContext.Provider>

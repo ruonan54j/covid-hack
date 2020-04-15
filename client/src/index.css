@@ -308,6 +308,22 @@ start */
 
 }
 
+.new-post-btn-custom-div{
+  margin-bottom: 5%;
+  text-align: left;
+}
+.new-post-btn-custom{
+  border: none;
+  background-color: #b5b5b5;
+  color: white;
+  padding: 0.8em 1.5em 0.8em 1.5em;
+  border-radius: .5em;
+}
+
+.new-post-btn-custom:hover{
+  color: white;
+  background-color: #00609A;
+}
 
 .right-div{
   text-align: right;

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import validateEmail from "../utils/utils";
 import usePasswordValidator from "../utils/passwordValidator";
 import { UserContext } from "../UserContext";
+import {Link} from "react-router-dom";
+
 
 const SignUp = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
@@ -47,24 +49,10 @@ const SignUp = () => {
       return res.json().then((data) =>{
         console.log("DATA",data);
         if (res.status == 201){
-          let uid = data.userID;
-          console.log("uid", uid);
-          return uid;
+          setCurrentUser(data);
         }
-        return null;
       })
-    })
-      .then(uid => {
-        if (uid!==null) {
-          fetch("https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/users/"+username)
-          .then((res) => {
-            res.json().then((data)=>{
-              console.log("reached",data);
-              setCurrentUser(data);
-            })
-          })
-        }
-      });
+    });
 
   }
 
@@ -121,7 +109,7 @@ const SignUp = () => {
           <div className="error">{confirmPasswordError}</div>
             <button className="login-btn" onClick={(e)=>handleSubmitBtn(e)}>Sign Up</button>
          
-          <p className="signup-link">Have an account? <a>Log in here</a></p>
+          <p className="signup-link">Have an account? <Link to="/login">Log in here</Link></p>
           </div>
         </form>
       </div>);

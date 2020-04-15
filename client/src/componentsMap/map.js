@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {
     GoogleMap, 
     withScriptjs, 
@@ -6,21 +6,23 @@ import {
     Marker,
     InfoWindow
 } from 'react-google-maps';
+import { ListingsContext } from "../ListingsContext";
 
-const Map = () => {
-    const [listings, setListings] = React.useState([{id:1,title: "cheap face masks", lat:44,lng:-76},{id: 2, title: "cheap face masks2",lat:46,lng:-76},{id: 3, title: "cheap face masks3",lat:45.5,lng:-74}]);
+const Map = (props) => {
+    const {listings, setListings} = useContext(ListingsContext);
+    //const [listings, setListings] = React.useState([{id:1,title: "cheap face masks", lat:44,lng:-76},{id: 2, title: "cheap face masks2",lat:46,lng:-76},{id: 3, title: "cheap face masks3",lat:45.5,lng:-74}]);
     const [selectedListing, setSelectedListing] = useState(null);
-
+    let i = 0;
     return (
         <GoogleMap 
         defaultZoom={8}
-        defaultCenter={{lat: 45, lng: -75}}
+        center={{lat: (listings.length!==0)?parseFloat(listings[0].lat): 0, lng: (listings.length!==0)?parseFloat(listings[0].long):0}}
         >
         {
             listings.map( listing => (
                 <Marker 
-                key={listing.id} 
-                position={{lat: listing.lat, lng: listing.lng}}
+                key={i++} 
+                position={{lat: parseFloat(listing.lat), lng: parseFloat(listing.long)}}
                 onClick={()=>{
                     setSelectedListing(listing);
                 }}/>
@@ -32,7 +34,7 @@ const Map = () => {
                 <InfoWindow 
                 position={{
                     lat: selectedListing.lat, 
-                    lng: selectedListing.lng
+                    lng: selectedListing.long
                     }}
                 onCloseClick={() => {
                     setSelectedListing(null);
@@ -40,7 +42,7 @@ const Map = () => {
                     <div>
                     Listing Details
                         <p>{selectedListing.title}</p>
-            <p>Lat: {selectedListing.lat} Lon: {selectedListing.lng}</p>
+            <p>Lat: {selectedListing.lat} Lon: {selectedListing.long}</p>
                     </div>
 
                 </InfoWindow>
