@@ -4,6 +4,7 @@ import './App.css';
 
 import MakersDatabase from './componentsDB/makerDB';
 import Navigationbar from './componentsCommon/navbar';
+import NavigationbarLogin from './componentsCommon/loginNavbar';
 import MapPage from './componentsMap/mapPage';
 import Login from './componentsLogin/login';
 import SignUp from './componentsLogin/signup';
@@ -28,7 +29,7 @@ function App() {
   return (
   <BrowserRouter>
   <UserContext.Provider value={{currentUser, setCurrentUser}}>
-    <Navigationbar name="Bob Y"/>
+    {(!isAuthenticated)? <NavigationbarLogin/>:<Navigationbar name="Bob Y"/>}
       <div className="App">
         <Switch>
         <Route path="/all-listings" render={(props) => (

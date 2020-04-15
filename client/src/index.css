@@ -136,6 +136,12 @@ start */
   width: 50%;
   text-align: left;
 }
+
+.left-nav-login{
+  width: 65%;
+  text-align: left;
+}
+
 .navbar-custom {
   background: white;
   padding: 1em 4em 0 4em;
@@ -153,6 +159,7 @@ start */
   color: black;
   height: 4em;
   padding: .5em 2em 0em 2em;
+  border-bottom: .5em solid white;
 }
 
 .nav-page-active{
@@ -198,7 +205,7 @@ start */
   margin: 10% 30% auto 30%;
   background: white;
   width: 40%;
-  height: 60vh;
+  height: auto;
   padding: 3em;
   border-radius: .3em;
   
@@ -420,14 +427,6 @@ start */
   border-radius: 1em;
 }
 
-.signup-type:click{
-  background-color: #00609A;  
-  color: white;
-  margin: 0 2em 2em 0;
-  padding: 1em 1.2em;
-  border-radius: 1em;
-}
-
 .error{
   color:#bf281d;
 }
@@ -473,7 +472,7 @@ start */
   margin: 10% 27% auto 27%;
   background: white;
   width: 46%;
-  height: 65vh;
+  height: auto;
   padding: 3em;
   border-radius: .3em;
   
@@ -485,3 +484,118 @@ start */
   padding-right: 10%;
 }
 /*post popup end*/
+
+/*add listings*/
+#overlay-add-listing{
+  position: fixed; 
+  width: 100%; 
+  height: 100%; 
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 100x;
+  background-color: rgba(0,0,0,0.5); 
+  z-index: 2; 
+  cursor: pointer; 
+}
+
+.add-listings-input{
+  width: 100%;
+  margin-bottom: 5%;
+  border: none;
+  border-radius: .3em;
+  padding: .5em;
+}
+
+.add-listings-description{
+  margin-bottom: 5%;
+  width: 100%;
+  outline-color: #919191; 
+  border-radius: .3em;
+  padding: .5em;
+  border: none;
+}
+
+
+.add-listings-popup{
+  text-align: left;
+  margin: 10% 30% auto 30%;
+  background: white;
+  width: 40%;
+  height: auto;
+  padding: 3em;
+  border-radius: .3em;
+  background: #F4F4F4;
+}
+
+.listing-type{
+  color: #bdbdbd;  
+  border: solid .1em #bdbdbd;
+  margin: 5%;
+  padding:.8em;
+  border-radius: 1em;
+
+}
+
+.listing-type-chosen{
+  color: white;  
+  background-color: #00609A;
+  border: none;
+  padding: .8em;
+  margin: 5%;
+  border-radius: 1em;
+ 
+}
+
+.listing-type:hover{
+  color: #00609A;  
+  border: solid .1em #00609A;
+  border-radius: 1em;
+}
+
+.right-col-add-listing{
+  text-align: left;
+}
+
+.img-upload{
+  display: none;
+}
+
+.upload-file-btn{
+  margin:0;
+  width: 40%;
+  margin-right: 60%;
+  color: gray;
+  border-radius: .5em;
+  background: url('/upload.webp') no-repeat center center; 
+  height: 6em;
+  margin-top: 5%;
+  margin-bottom: 5% ;
+  background-size: contain;
+  
+}
+
+.upload-file-btn:hover{
+  background-color: white;
+  
+}
+
+.submit-post-btn{
+  margin-top: 1em;
+  width: 40%;
+  padding: .7em;
+  border: none;
+  background-color: #919191;
+  color: white;
+  border-radius: .5em;
+}
+.submit-post-btn:hover{
+  background-color: #00609A;
+}
+
+.new-post-h1{
+  font-size: 1.8em;
+}
+/*add listing end*/

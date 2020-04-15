@@ -9,7 +9,7 @@ const SignUp = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
   
   const [username, setUsername] = useState("");
-  const [isSupplier, setIsSupplier] = useState("");
+  const [isSupplier, setIsSupplier] = useState(true);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import WrappedMap from './map';
 import PostListing from "./postListing";
 import PostPopup from "./postPopup";
+import AddListing from './addPost';
 import { ListingsContext } from "../ListingsContext";
+
 const MapPage = (props) => {
     const [listings, setListings] = React.useState([]);
 
@@ -23,6 +25,7 @@ const MapPage = (props) => {
         <ListingsContext.Provider value={{listings, setListings}}>
         <div className="row">
                  <PostPopup />
+                 <AddListing/>
         <div className="post-Listing-container">
             <PostListing/>
         </div>
