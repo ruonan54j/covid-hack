@@ -12,16 +12,18 @@ const isEmpty = (string) => {
 
 exports.findUser = function(req, res){
 
-    db.doc(`/users/${req.params.handle}`)
+    db.collection('/users')
+        .where("userID", "==", req.params.userID)
+        .limit(1)
         .get()
-        .then((doc) => {
-            if(doc.exists)
-                return res.status(200).json(doc.data());
+        .then((snapShot) => {
+            if(!snapShot.empty)
+                return res.status(200).json(snapShot.docs[0].data());
             else
                 return res.status(204).json({message: 'User not found'});
         })
         .catch(err => {
-            console.error('Error getting collection of posts', err);
+            console.error('Error getting user', err);
             return res.status(500).json({error: err.code, errorMessage: err.message});
         });
 

@@ -7,7 +7,7 @@ const partController    = require('../controller/partController');
 const middleware        = require('../middleware/middleware');
 
 const userRoute = "/users";
-const userHandle = "/:userHandle";
+const userHandle = "/:userID";
 
 const postRoute = "/posts";
 const postID = "/:postID";
