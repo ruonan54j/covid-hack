@@ -132,6 +132,18 @@ start */
 /*makers db end*/
 
 /*navbar starts*/
+#clicked-profile{
+  display: none;
+}
+.profile-popup{
+  padding: 1em;
+  margin-left: 80vw;
+  width: 20vw;
+  background-color: white;
+  margin-top: 1em;
+  position: fixed;
+}
+
 .left-nav{
   width: 50%;
   text-align: left;
@@ -182,6 +194,17 @@ start */
   height: 3.5em;
   margin: -1em 1em .5em 1em;
   border-radius: 50%;
+}
+
+.logout-btn{
+  background-color: #919191;
+  border: none;
+  color: white;
+  padding: .5em 1em;
+  border-radius: .3em;
+}
+.logout-btn:hover{
+  background-color: #00609A;
 }
 /*navbar ends*/
 

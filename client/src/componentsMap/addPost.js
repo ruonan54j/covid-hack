@@ -34,7 +34,7 @@ const AddListing = () => {
       },
       body: JSON.stringify(
         { 
-          "userHandle": "abc",	
+          "userHandle": "123",	
           "title": title.toString(),
           "description": description.toString(),
           "address": address.toString(),
@@ -51,7 +51,7 @@ const AddListing = () => {
       return res.json().then((data) =>{
         console.log("DATA",data);
         if (res.status === 201){
-          setCurrentUser(data);
+          window.location.reload(false);
         }
       })
     });

@@ -19,7 +19,11 @@ function App() {
   let apiKey = process.env.REACT_APP_GOOGLE_KEY;
   useEffect(
     () => {
-      if(currentUser._currentValue != false){
+      if(currentUser === null){
+        console.log("current user updated", currentUser);
+        setIsAuthenticated(false);
+      }
+      else if(currentUser._currentValue != false){
         console.log("current user updated", currentUser);
         setIsAuthenticated(true);
       }
@@ -29,7 +33,7 @@ function App() {
   return (
   <BrowserRouter>
   <UserContext.Provider value={{currentUser, setCurrentUser}}>
-    {(!isAuthenticated)? <NavigationbarLogin/>:<Navigationbar name="Bob Y"/>}
+    {(!isAuthenticated)? <NavigationbarLogin/>:<Navigationbar/>}
       <div className="App">
         <Switch>
         <Route path="/all-listings" render={(props) => (

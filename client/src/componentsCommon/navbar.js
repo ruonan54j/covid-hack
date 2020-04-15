@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {Link} from "react-router-dom";
+import {UserContext} from '../UserContext';
 
 export const Navigationbar = (props) => {
   const [currentPage, setcurrentPage] = useState(2);
-
+  const [profileOpen, setProfileOpen] = useState(false); 
+  
+  const {currentUser, setCurrentUser} = useContext(UserContext);
+  
+  const handleLogoutBtn=()=>{
+    setCurrentUser(null);
+  }
+  const openProfile=()=>{
+    if (!profileOpen){
+      document.getElementById("clicked-profile").style.display = "block";
+      setProfileOpen(true);
+    }
+    else {
+      document.getElementById("clicked-profile").style.display = "none";
+      setProfileOpen(false);
+    }
+  }
     return (
       <div>
         <nav className="navbar navbar-custom row">
@@ -18,12 +35,18 @@ export const Navigationbar = (props) => {
           <Link to={"/"} onClick={() => setcurrentPage(2)} className={currentPage==2?"nav-page nav-page-active": "nav-page"} href="#">
               <p>Maker's Database</p>
             </Link>
+            <a onClick={() => openProfile()} className="nav-page" href="#">
+              <p>Profile</p>
+            </a>
           
-          <Link to={"/profile"} onClick={() => setcurrentPage(3)} className={currentPage==3?"nav-profile row nav-page-active": "nav-profile row"} href="#">
-            <img className="nav-profile-pic" src="https://cdn3.f-cdn.com/contestentries/1376995/30494909/5b566bc71d308_thumb900.jpg"></img>
-              <p>{props.name}</p>
-            </Link>
           </nav>
+          <div className="profile-popup" id="clicked-profile">
+            <div className="col">
+            <p>{(currentUser === null)? "": currentUser.handle}</p>
+            <p>{(currentUser === null)? "": currentUser.email}</p>
+            <button className="logout-btn" onClick={()=>handleLogoutBtn()}>Log out</button>
+            </div>
+          </div>
         </div>
       )
     }
