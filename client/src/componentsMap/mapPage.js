@@ -7,7 +7,7 @@ import { ListingsContext } from "../ListingsContext";
 
 const MapPage = (props) => {
     const [listings, setListings] = React.useState([]);
-
+    
     useEffect(() => {
         fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts')
             .then(res => {
