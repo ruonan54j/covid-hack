@@ -1,6 +1,8 @@
 const {admin, db} = require('../util/admin');
+const {validateNewPostData} = require('../util/validation');
 const postCollection = db.collection('posts');
 const devAuth = require('../util/env').DevAuth;
+
 
 exports.findPost = function(req, res){
     
@@ -55,6 +57,7 @@ exports.updatePost = function(req, res){
 
     let post = req.body;
 
+
     // TODO: Validate Post Data Fields
 
     let getPostResult = postCollection.doc(req.params.postID)
@@ -75,20 +78,23 @@ exports.updatePost = function(req, res){
 
 exports.createPost = function(req, res){
 
-    if(!res.locals.isAuthenticated || devAuth)
+    if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
 
-    let post = req.body;
     // TODO: Validate Post data fields
+    const newPost = req.body;
+    const {valid, errors} = validateNewPostData(newPost);
+    if(!valid)
+        return res.status(400).json(errors);
 
-    db.collection('posts').add(post)
+    db.collection('posts').add(newPost)
         .then((dataRef) => {
-            return db.doc(`/users/${res.locals.user.handle}`).update({
+            return db.doc(`/users/${newPost.userHandle}`).update({
                 posts: admin.firestore.FieldValue.arrayUnion(dataRef.id)
             });
         })
         .then(() => {
-            return res.status(201).json({message: 'Post Created Successfully'});
+            return res.status(201).json({message: 'Post Created Successfully', request: req.body});
         })
         .catch(err => {
             console.log(err);
