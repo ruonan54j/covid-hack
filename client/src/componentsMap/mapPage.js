@@ -6,7 +6,7 @@ import AddListing from './addPost';
 import { ListingsContext } from "../ListingsContext";
 import { selectedPostContext } from "../selectedContext";
 
-const MapPage = (props) => {
+const MapPage = () => {
     
     const [listings, setListings] = React.useState([]);
     const [selectedPost, setSelectedPost] = React.useState([]);
@@ -18,9 +18,11 @@ const MapPage = (props) => {
             return res.json().then((data) =>{
                 console.log("DATA",data);
                 if (res.status == 200){
-                setListings(data);
+                    setListings(data);
                 }
-            })
+            }).catch((e)=>{
+                console.log(e);
+            });
     });
     }, []);
      
@@ -36,7 +38,7 @@ const MapPage = (props) => {
         <div className="google-map">
       <WrappedMap 
       googleMaps
-      googleMapURL={"https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=" + props.apiKey}
+      googleMapURL={"https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCPr5aDlJDqYLhbGvYpmCDqDqcPOODxgLw"}
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={<div style={{ height: `100%` }} />}
       mapElement={<div style={{ height: `100%` }} />}

@@ -10,7 +10,7 @@ const PostListing = () => {
     let posts=[];
     for(let i = 0; i< listings.length; i++){
       posts.push( 
-      <Post post={listings[i]}/>
+      <Post key={i} post={listings[i]}/>
       );
     }
 

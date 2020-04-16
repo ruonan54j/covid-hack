@@ -1,10 +1,13 @@
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import {selectedPartContext} from '../selectedContext';
 
 const Part = (props) => {
-  
+  const {selectedPart, setSelectedPart} = useContext(selectedPartContext);
+
     const handleSupplierClick = () =>{
       document.getElementById("overlay-part").style.display = "block";  
+      setSelectedPart(props.part);
     }
     
     return (

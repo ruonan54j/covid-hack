@@ -47,8 +47,12 @@ const PartListing = () => {
     }
     
     return (
+      <div>
+      <h1 className="h1-part-listings">Maker's Database</h1>
       <div className="row part-listing">
+        
         {partListing}
+      </div>
       </div>
     )
   }

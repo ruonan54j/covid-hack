@@ -2,11 +2,13 @@ import React, { useState , useContext} from "react";
 import { selectedPostContext } from "../selectedContext";
 
 const PostPopup = () => {
+  const {selectedPost, setSelectedPost} = useContext(selectedPostContext);
+
     const handleClickClose = () => {
           document.getElementById("overlay-post").style.display = "none";
       }
-      const {selectedPost, setSelectedPost} = useContext(selectedPostContext);
-    return (
+
+      return (
       <div id="overlay-post">
         
         <div className="post-popup">
@@ -44,15 +46,7 @@ const PostPopup = () => {
         
           <div className="popup-col">
             <div className="popup-img-div">
-            <img className="popup-img" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
-            </div>
-            <div className="popup-img-div">
-            <img className="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
-  
-        
-            <img className="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
-         
-            <img className="popup-img-small" src="https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2020/03/89996384_10222328772156304_3292612436959428608_o.jpg"></img>
+      <img className="popup-img" src={selectedPost.img}></img>
             </div>
         </div>
          </div>

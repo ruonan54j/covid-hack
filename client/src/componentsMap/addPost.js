@@ -1,14 +1,16 @@
 
 import React, { useState, useContext } from "react";
 import { UserContext } from "../UserContext";
+import Geocode from "react-geocode";
 
 const AddListing = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
-   
+  const [img, setImg] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +19,15 @@ const AddListing = () => {
   const [capacity, setCapactiy] = useState("");
 
   const [delivery, setDelivery] = useState("pickup");
+  
+  const handleSetImg = (file) => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      setImg(e.target.result);
+    }
+  }
+  
   const handleTypeBtn=(e, value)=>{
     e.preventDefault();
     setDelivery(value);
@@ -25,8 +36,27 @@ const AddListing = () => {
     e.preventDefault();
     document.getElementById("overlay-add-listing").style.display = "none";
 }
-  const handleSubmitBtn=(e) => {
+
+const handleSubmitBtn=(e) => {
     e.preventDefault();
+    let longRes = 0;
+    let latRes = 0;
+    Geocode.setRegion("ca");
+    // Get latidude & longitude from address.
+    Geocode.fromAddress(address).then(
+      response => {
+        const { lat, long } = response.results[0].geometry.location;
+
+        latRes = lat;
+        longRes = long;
+
+        console.log(lat, long);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+
     let sendData = {
       method: 'POST',
       headers: {
@@ -42,7 +72,12 @@ const AddListing = () => {
           "price": price.toString(),
           "capacity": capacity.toString(),
           "phone": phone.toString(),
-          "email": email.toString()
+          "email": email.toString(),
+          "img": img,
+          "lat": latRes,
+          "long": longRes,
+          "city": city.toString()
+          
       })
     };
 
@@ -59,7 +94,7 @@ const AddListing = () => {
     return (
       <div id="overlay-add-listing">
         
-        <div class="add-listings-popup">
+        <div className="add-listings-popup">
           <h1 className="new-post-h1">Add Listing</h1>
           <p className="popup-grey-text">INFORMATION</p>
           <form>
@@ -71,6 +106,9 @@ const AddListing = () => {
           className="add-listings-description" placeholder="description"></textarea>
           <input placeholder="Address" 
           onChange={e => setAddress(e.target.value)} 
+          className="add-listings-input"/>
+          <input placeholder="city" 
+          onChange={e => setCity(e.target.value)} 
           className="add-listings-input"/>
               <input placeholder="Country" 
               onChange={e => setCountry(e.target.value)} 
@@ -96,8 +134,8 @@ const AddListing = () => {
           <button className={(delivery==="delivery")?"listing-type-chosen":"listing-type"} onClick={(e)=>{handleTypeBtn(e, "delivery")}}>Delivery</button>
           </div>
           Upload image
-          <label class="upload-file-btn">
-   <input type="file" className="img-upload" accept="image/jpeg, image/png"/></label>
+          <label className="upload-file-btn">
+   <input type="file" className="img-upload" accept="image/jpeg, image/png" onChange={(e) => {handleSetImg(e.target.files[0])}}/></label>
    <button className="submit-post-btn" onClick={(e)=>handleSubmitBtn(e)}>Submit</button>
    <button className="submit-post-btn" onClick={(e)=>handleClickClose(e)}>Cancel</button>
               </div>
