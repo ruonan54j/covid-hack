@@ -11,7 +11,7 @@ import SignUp from './componentsLogin/signup';
 import WrapperLogin from './componentsLogin/wrapperLogin';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { UserContext } from "./UserContext";
-
+import Landing from './landingPage/landing';
 function App() {
 
   const [currentUser, setCurrentUser] = useState(UserContext);
@@ -57,7 +57,7 @@ function App() {
         render={(props) => (
           isAuthenticated
             ? <MakersDatabase/>
-            : <Redirect to='/login' />)} />
+            : <Landing/>)} />
       </Switch>
     </div>
     </UserContext.Provider>

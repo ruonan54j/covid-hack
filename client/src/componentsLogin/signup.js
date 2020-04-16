@@ -27,6 +27,16 @@ const SignUp = () => {
 
   const handleSubmitBtn=(e) => {
     e.preventDefault();
+
+    if (emailError !== "" || confirmPasswordError !== "" || passwordError !== "") {
+      alert("Invalid fields! Please view errors");
+      return;
+    }
+
+    if(email === "" || password=== "" || confirmPassword === "" || username === "") {
+      alert("Fields can not be empty!");
+      return;
+    }
     let sendData = {
       method: 'POST',
       headers: {
@@ -46,10 +56,15 @@ const SignUp = () => {
 
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/signup', sendData)
     .then(res => {
-      return res.json().then((data) =>{
+      return res.json().then((data) => {
         console.log("DATA",data);
         if (res.status == 201){
           setCurrentUser(data);
+        }else{
+          let err =JSON.stringify(data).replace("{", "");
+          err = err.replace("}", "");
+          err = err.replace(/['"]+/g, "");
+          alert(err);
         }
       })
     });
