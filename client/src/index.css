@@ -1,4 +1,5 @@
 body {
+  width: 100vw;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -147,6 +148,10 @@ start */
   display: flex;
 }
 
+#nav-expand-reg{
+  display: flex;
+}
+
 #clicked-profile{
   display: none;
 }
@@ -167,11 +172,12 @@ start */
 }
 
 .left-nav{
-  width: 50%;
+  width:40%;
   text-align: left;
 }
 
 .logo-img{
+  margin-left: 5%;
   margin-top:-.6em;
   height: 2.3em;
 }
@@ -215,6 +221,10 @@ start */
 .nav-profile-active{
   border-bottom: #6978A7 solid 1em;
 } 
+
+.navbar-toggle{
+  display: none;
+}
 
 .nav-profile-pic{
   width: 3.5em;
@@ -731,11 +741,13 @@ start */
   .left-nav-login{
     width: 40%;
   }
+  
   /*nav end*/
 }
 
 @media only screen and (max-device-width: 550px){
   
+
   /*landing page start*/
   .h1-heading-landing-main{
     font-size: 2em;
@@ -802,8 +814,28 @@ start */
     padding-left:10%;
   }
 
+  #nav-expand-reg{
+    display: none;
+    padding-left: 10%;
+  }
   .left-nav-login{
     width: 60%;
+    padding-right: 10%;
+  }
+
+  .left-nav{
+    width: 60%;
+    padding-right: 10%;
+  }
+  
+  .logo-img{
+    margin-left: -.5em;
+  }
+
+  .navbar-toggle{
+    display: block;
+    margin-left: 10%;
+    
   }
 }
 

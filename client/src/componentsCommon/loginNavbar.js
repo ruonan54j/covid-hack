@@ -12,13 +12,12 @@ export const NavigationbarLogin = (props) => {
     } else {
       document.getElementById("nav-expand").style.display = "none";  
       setToggle(1);
-    }
-    
+    } 
   }
     return (
       <div>
          <nav className="navbar navbar-custom row navbar-expand-lg">
-         <button class="navbar-toggler" type="button" 
+         <button class="navbar-toggle" type="button" 
          onClick={()=>handleToggle()}>
             <div class="icon-toggle"></div>
           </button>
