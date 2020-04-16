@@ -641,3 +641,223 @@ start */
   font-size: 1.8em;
 }
 /*add listing end*/
+
+
+/* start seb*/
+
+@media only screen and (min-device-width: 500px) and (max-device-width: 768px){
+  .login-pg{
+    background: white;
+    width: 150%;
+    padding: 5%;
+    margin-top: 5%;
+  }
+  .login-input{
+    width: 60%;
+    margin-right: 30%;
+    margin-bottom: 1em;
+    padding: .5em;
+    border-radius: .3em;
+    border: solid .5px #bdbdbd;
+  }
+    
+  .login-btn{
+    margin-top: 1em;
+    width: 60%;
+    padding: .7em;
+    border: none;
+    background:#00609A;
+    color: white;
+    border-radius: .5em;
+  }
+  
+  .login-title{
+    margin-bottom: 1em;
+    text-align: left;
+  }
+  
+  .login-form-content{
+    text-align: left;
+  }
+  
+  .signup-link{
+    padding-right: 20%;
+  }
+
+  .wrapper-login{
+    background-color:white;
+    border-radius: .5em;
+    margin: 5% 10% 5% 10%;
+    height: 5vh; 
+  }
+  
+  .login-image{
+    background: url('/login-image.png') no-repeat center center; 
+    background-size: cover;
+    border-top-right-radius: .5em;
+    border-bottom-right-radius: .5em;
+  }
+  
+
+  
+  .signup-pg{
+    background: white;
+    width: 155%;
+    padding: 5%;
+  }
+  
+  .signup-link{
+    margin-top: 1em;
+  }
+  
+  .signup-type{
+    width:200px;
+    height:50px;
+    padding:5%;
+    color: #bdbdbd;  
+    border: solid .1em #bdbdbd;
+    margin: 0 2em 2em 0;
+    padding: 1em 1.2em;
+    border-radius: 1em;
+  }
+  
+  .signup-type-chosen{
+    width:200px;
+    height:50px;
+    padding:5%;
+    color: white;  
+    background-color: #00609A;
+    border: none;
+    margin: 0 2em 2em 0;
+    padding: 1em 1.2em;
+    border-radius: 1em;
+  }
+  
+  .signup-type:hover{
+    color: #00609A;  
+    border: solid .1em #00609A;
+    margin: 0 2em 2em 0;
+    padding: 1em 1.2em;
+    border-radius: 1em;
+  }
+  
+  .password-check{
+    color: #828282;
+  }  
+  .error{
+    color:#bf281d;
+  }
+  
+    
+}
+
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 450px){
+  .left-nav-login{
+    width:100px;
+    margin-top: auto;
+  }
+  .login-pg{
+    background: white;
+    width: 100%;
+    margin-top: 5%;
+  }
+  .login-input{
+    width: 100%;
+    margin-right: 30%;
+    margin-bottom: 1em;
+    padding: .5em;
+    border-radius: .3em;
+    border: solid .5px #bdbdbd;
+  }
+    
+  .login-btn{
+    margin-top: 1em;
+    width: 100%;
+    padding: .7em;
+    border: none;
+    background:#00609A;
+    color: white;
+    border-radius: .5em;
+  }
+  
+  .login-title{
+    margin-bottom: 1em;
+    text-align: left;
+  }
+  
+  .login-form-content{
+    text-align: left;
+  }
+  
+  .signup-link{
+    padding-right: 0%;
+  }
+  
+  .wrapper-login{
+    background-color:white;
+    border-radius: .5em;
+    margin: 5% 10% 5% 10%;
+    height: 5vh; 
+  }
+  
+  .login-image{
+    background: url('/login-image.png') no-repeat center center; 
+    background-size: cover;
+    border-top-right-radius: .5em;
+    border-bottom-right-radius: .5em;
+  }
+  
+
+  
+  .signup-pg{
+    background: white;
+    width: 105%;
+    padding: 5%;
+  }
+  
+  .signup-link{
+    margin-top: 1em;
+  }
+  
+  .signup-type{
+    width:200px;
+    height:50px;
+    padding:5%;
+    color: #bdbdbd;  
+    border: solid .1em #bdbdbd;
+    margin: 0 2em 2em 0;
+    padding: 1em 1.2em;
+    border-radius: 1em;
+  }
+  
+  .signup-type-chosen{
+    width:200px;
+    height:50px;
+    padding:5%;
+    color: white;  
+    background-color: #00609A;
+    border: none;
+    margin: 0 2em 2em 0;
+    padding: 1em 1.2em;
+    border-radius: 1em;
+  }
+  
+  .signup-type:hover{
+    color: #00609A;  
+    border: solid .1em #00609A;
+    margin: 0 2em 2em 0;
+    padding: 1em 1.2em;
+    border-radius: 1em;
+  }
+  
+  .password-check{
+    color: #828282;
+  }  
+  .error{
+    color:#bf281d;
+  }
+  
+    
+}
+/*end seb*/
