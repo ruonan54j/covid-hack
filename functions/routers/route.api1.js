@@ -7,7 +7,7 @@ const partController    = require('../controller/partController');
 const middleware        = require('../middleware/middleware');
 
 const userRoute = "/users";
-const userHandle = "/:userID";
+const userID = "/:userID";
 
 const postRoute = "/posts";
 const postID = "/:postID";
@@ -27,14 +27,14 @@ router.post("/login", userController.loginUser);
 // Sign up user
 router.post("/signup", userController.signUpUser, middleware.sendConfirmationEmail);
 // Remove user
-router.delete(userRoute + userHandle, userController.removeUser);
+router.delete(userRoute + userID, userController.removeUser);
 
 // User Endpoints
-router.get(userRoute + userHandle, userController.findUser);
-router.put(userRoute + userHandle, userController.updateUser);
+router.get(userRoute + userID, userController.findUser);
+router.put(userRoute + userID, userController.updateUser);
 // User Collection endpoint
-router.put(userRoute + userHandle + "/collection" + partID, userController.updateToUserCollection)
-router.delete(userRoute + userHandle + "/collection" + partID, userController.removeFromUserCollection)
+router.put(userRoute + userID + "/collection" + partID, userController.updateToUserCollection)
+router.delete(userRoute + userID + "/collection" + partID, userController.removeFromUserCollection)
 
 // Post Endpoints
 router.get(postRoute + postID, postController.getPost);

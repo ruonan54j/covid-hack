@@ -47,6 +47,11 @@ exports.reduceUserDetails = (data) => {
     let userDetails = {};
     let errors = {};
 
+    // User Handle
+    if(!isEmpty(data.handle)) userDetails.handle = data.handle;
+    else
+        errors.handle = 'Must not be empty';
+
     // User Bio
     if(!isEmpty(data.bio)) userDetails.bio = data.bio;
 
