@@ -1,28 +1,55 @@
 const {admin, db} = require('../util/admin');
-const {validateNewPostData} = require('../util/validation');
+const {validateNewPostData, isEmpty} = require('../util/validation');
 const postCollection = db.collection('posts');
 const devAuth = require('../util/env').DevAuth;
-
+let options = {
+    provider: 'openstreetmap',
+}
+const geocoder = require('node-geocoder')(options);
 
 exports.findPost = function(req, res){
-    
-    // TODO: Add querying / pagination limits to limit posts returned
-    postCollection
-        .get()
-        .then((snapShot) => {
-            let posts = [];
-            snapShot.forEach(doc => {
-                posts.push(doc.data());
+
+    // TODO: Querying by location
+    // TODO: Pagination
+
+    // No city query put in
+    if(!req.query.hasOwnProperty('city') || req.query.city === undefined || isEmpty(req.query.city)){
+        postCollection
+            .get()
+            .then((snapShot) => {
+                let posts = [];
+                snapShot.forEach(doc => {
+                    posts.push(doc.data());
+                });
+                if(posts.length > 0)
+                    return res.status(200).json(posts);
+                else
+                    return res.status(204).json({message: 'No posts found'});
+            })
+            .catch(err => {
+                console.error('Error getting collection of posts', err);
             });
-            if(posts.length > 0)
-                return res.status(200).json(posts);
-            else
-                return res.status(204).json({message: 'No posts found'});
-        })
-        .catch(err => {
-            console.error('Error getting collection of posts', err);
-        });
-    
+    }
+    else{
+        postCollection
+            .where('city', "==", req.query.city)
+            .get()
+            .then((snapShot) => {
+                let posts = [];
+                snapShot.forEach(doc => {
+                    posts.push(doc.data());
+                });
+                if(posts.length > 0)
+                    return res.status(200).json(posts);
+                else
+                    return res.status(204).json({message: 'No posts found within this city'});
+            })
+            .catch(err => {
+                console.error('Error getting collection of posts', err);
+            });
+    }
+
+
 }
 
 exports.getPost = function(req, res){
@@ -125,5 +152,6 @@ exports.deletePost = function(req , res){
 
 }
 
-// Possible Test Function
-// exports.generateData = function()
+
+
+
