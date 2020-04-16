@@ -641,3 +641,43 @@ start */
   font-size: 1.8em;
 }
 /*add listing end*/
+
+/* landing page */
+.landing-main{
+  margin: 5% 10% 5% 10%;
+  border-radius: .5em;
+  padding: 10% 5% 10% 5%;
+  background: url('/landing.png') no-repeat center center; 
+  background-size: cover;
+}
+
+.heading-landing-main{
+  text-align: left;
+}
+
+.h1-heading-landing-main{
+  line-height: 1.5em;
+  font-size: 2.5em;
+}
+
+.landing-about{
+  margin: 10% 10% 5% 10%;
+  text-align: left;
+  color: white;
+  border-radius: .5em;
+  background-color: #5b7ea0;
+  padding: 5%;
+}
+
+.about-content{
+  margin-bottom: 6%;
+}
+
+.h1-landing-about{
+  margin-bottom: 3%;
+}
+
+.list-landing{
+  margin-top: 1em;
+  line-height: 1.8em;
+}
