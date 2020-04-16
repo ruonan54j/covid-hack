@@ -5,12 +5,12 @@ const Landing = () => {
         <div>
         <div className="landing-main">
             <div className="row">
-                <div className="col-4 heading-landing-main">
+                <div className="left-landing-col heading-landing-main">
                     <h1 className="h1-heading-landing-main">
                 Connecting Suppliers and Buyers for 3D printed products in the fight against Covid-19.
                 </h1>
                 </div>
-                <div className="col-8">                    
+                <div className="right-landing-col">                    
                 </div>
             </div>
             
@@ -26,11 +26,11 @@ const Landing = () => {
             <h1 className="h1-landing-about">How it works</h1>
             
             <div className="row">
-                <div className="col">
+                <div className="col-md mobile-col">
                     <h2>
                         Suppliers
                     </h2>
-                    <p>
+       
                         <ol className="list-landing">
                             <li>
                             Sign up as a supplier
@@ -44,14 +44,13 @@ const Landing = () => {
                            
                         </ol>
  
-                    </p>
                 </div>
 
-                <div className="col">
+                <div className="col-md mobile-col">
                     <h2>
                         Buyer
                     </h2>
-                    <p>
+                    
                         <ol className="list-landing">
                             <li>
                             Sign up as a buyer
@@ -64,7 +63,7 @@ const Landing = () => {
                             </li>
                         </ol>
  
-                    </p>
+                  
                 </div>
             </div>
         </div>

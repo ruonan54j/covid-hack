@@ -143,6 +143,10 @@ start */
 /*makers db end*/
 
 /*navbar starts*/
+#nav-expand{
+  display: flex;
+}
+
 #clicked-profile{
   display: none;
 }
@@ -156,6 +160,12 @@ start */
   position: fixed;
 }
 
+.icon-toggle{
+  display: none;
+  background: url('/icon-burg.png') no-repeat center center; 
+  background-size: contain;
+}
+
 .left-nav{
   width: 50%;
   text-align: left;
@@ -167,7 +177,7 @@ start */
 }
 
 .left-nav-login{
-  width: 65%;
+  width: 80%;
   text-align: left;
 }
 
@@ -223,6 +233,7 @@ start */
 .logout-btn:hover{
   background-color: #00609A;
 }
+
 /*navbar ends*/
 
 /*popup start*/
@@ -681,3 +692,119 @@ start */
   margin-top: 1em;
   line-height: 1.8em;
 }
+
+.left-landing-col {
+  width:30%;
+}
+
+.right-landing-col {
+  left:70%;
+}
+
+/*Rj responsive styling*/
+
+@media only screen and (min-device-width: 769px) and (max-device-width: 1024px){
+  .left-nav-login{
+    width: 60%;
+  }
+}
+@media only screen and (min-device-width: 551px) and (max-device-width: 768px){
+  /*landing page start*/
+  .h1-heading-landing-main{
+    font-size: 2em;
+  }
+
+  .left-landing-col {
+    width:50%;
+  }
+  .right-landing-col {
+    width:50%;
+  }
+
+  /*landing page end*/
+  
+  /*nav*/
+  .navbar-custom{
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .left-nav-login{
+    width: 40%;
+  }
+  /*nav end*/
+}
+
+@media only screen and (max-device-width: 550px){
+  
+  /*landing page start*/
+  .h1-heading-landing-main{
+    font-size: 2em;
+    color: white;
+  }
+
+  .left-landing-col {
+    width:100%;
+  }
+  .right-landing-col {
+    width:0%;
+  }
+
+  .landing-main{
+    margin: 0;
+    border-radius: 0;
+    padding: 5vh 10vw 5vh 10vw;
+    height: 100vh;
+    background: url('/landing-mobile.png') no-repeat center center; 
+  }
+
+  .landing-about{
+    border-radius: 0;
+    margin:0;
+    padding: 10%;
+  }
+
+  .about-content{
+    margin-bottom: 15%;
+  }
+  
+  .h1-landing-about{
+    margin-bottom: 10%;
+  }
+
+  .mobile-col{
+    width: 100vw !important;
+  }
+  /*landing page end*/
+
+  /*nav*/
+  .navbar-custom{
+    padding-left: 0;
+  }
+  .nav-page{
+    width: 100%;
+  }
+  .nav-page-active{
+    border: none;
+  }
+
+  .icon-toggle{
+    display: flex;
+    height: 2em;
+    margin-top: -.5em;
+    padding-bottom: .5em;
+    width: 2em;
+    background: url('/icon-burg.png') no-repeat center center; 
+    background-size: contain;
+  }
+
+  #nav-expand{
+    display: none;
+    padding-left:10%;
+  }
+
+  .left-nav-login{
+    width: 60%;
+  }
+}
+
+/*Rj responsive styling end*/
