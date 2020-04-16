@@ -1,4 +1,5 @@
 body {
+  width: 100vw;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -143,6 +144,14 @@ start */
 /*makers db end*/
 
 /*navbar starts*/
+#nav-expand{
+  display: flex;
+}
+
+#nav-expand-reg{
+  display: flex;
+}
+
 #clicked-profile{
   display: none;
 }
@@ -157,11 +166,12 @@ start */
 }
 
 .left-nav{
-  width: 50%;
+  width:40%;
   text-align: left;
 }
 
 .logo-img{
+  margin-left: 5%;
   margin-top:-.6em;
   height: 2.3em;
 }
@@ -205,6 +215,10 @@ start */
 .nav-profile-active{
   border-bottom: #6978A7 solid 1em;
 } 
+
+.navbar-toggle{
+  display: none;
+}
 
 .nav-profile-pic{
   width: 3.5em;
@@ -683,6 +697,9 @@ start */
   .signup-link{
     padding-right: 20%;
   }
+  
+  /*nav end*/
+
 
   .wrapper-login{
     background-color:white;
@@ -691,11 +708,11 @@ start */
     height: 5vh; 
   }
   
-  .login-image{
-    background: url('/login-image.png') no-repeat center center; 
-    background-size: cover;
-    border-top-right-radius: .5em;
-    border-bottom-right-radius: .5em;
+
+  /*landing page start*/
+  .h1-heading-landing-main{
+    font-size: 2em;
+    color: white;
   }
   
 
@@ -809,15 +826,28 @@ start */
   }
   
 
-  
-  .signup-pg{
-    background: white;
-    width: 105%;
-    padding: 5%;
+  #nav-expand-reg{
+    display: none;
+    padding-left: 10%;
+  }
+  .left-nav-login{
+    width: 60%;
+    padding-right: 10%;
+  }
+
+  .left-nav{
+    width: 60%;
+    padding-right: 10%;
   }
   
-  .signup-link{
-    margin-top: 1em;
+  .logo-img{
+    margin-left: -.5em;
+  }
+
+  .navbar-toggle{
+    display: block;
+    margin-left: 10%;
+    
   }
   
   .signup-type{
