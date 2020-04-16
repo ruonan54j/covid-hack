@@ -31,6 +31,8 @@ const Login = () => {
         if (res.status == 200){
           let user= data;
           setCurrentUser(user);
+        } else {
+          alert("Invalid email / password");
         }
       })
     });
