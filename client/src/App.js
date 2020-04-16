@@ -16,7 +16,7 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState(UserContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  let apiKey = process.env.REACT_APP_GOOGLE_KEY;
   useEffect(
     () => {
       if(currentUser === null){
@@ -39,7 +39,7 @@ function App() {
         <Switch>
         <Route path="/all-listings" render={(props) => (
     isAuthenticated
-      ? <MapPage/>
+      ? <MapPage {...props} apiKey={apiKey} />
       : <Redirect to='/login' />)}
       />
         <Route path="/login" 
