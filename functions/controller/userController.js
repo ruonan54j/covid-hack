@@ -43,7 +43,7 @@ exports.signUpUser = function(req, res){
 
     let noImg = newUser.isSupplier ? 'no-img-supplier.png' : 'no-img-buyer.png';
 
-    let token, userID, retUser;
+    let token, userID, userData;
     return db.doc(`/users/${newUser.handle}`)
         .get()
         .then((doc) => {
@@ -60,12 +60,12 @@ exports.signUpUser = function(req, res){
         })
         .then(data => {
             userID = data.user.uid;
-            retUser = data.user;
+            let retUser = data.user;
             return data.user.getIdToken();
         })
         .then((idToken) => {
             token = idToken;
-            const userCredentials = {
+            userData = {
                 handle: newUser.handle,
                 email: newUser.email,
                 createdAt: new Date().toISOString(),
@@ -74,10 +74,10 @@ exports.signUpUser = function(req, res){
                 imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
                 userID
             };
-            return db.doc(`/users/${newUser.handle}`).set(userCredentials);
+            return db.doc(`/users/${newUser.handle}`).set(userData);
         })
         .then((user) => {
-            return res.status(201).json({ retUser });
+            return res.status(201).json(userData);
         })
         .catch((err) => {
             console.error(err);
@@ -98,24 +98,33 @@ exports.loginUser = function(req, res) {
     console.log(user);
     let errors = {}
 
-    if (isEmpty(user.email)) errors.email = 'Must not be empty'
-    if (isEmpty(user.password)) errors.password = 'Must not be empty'
+    if (isEmpty(user.email)) errors.email = 'Must not be empty';
+    if (isEmpty(user.password)) errors.password = 'Must not be empty';
     if (Object.keys(errors) > 0) res.status(400).json(errors).send();
 
     return firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(data => {
-            return res.status(200).json(data.user).send();
+            return db.collection('/users')
+                .where("userID", "==", data.user.uid)
+                .limit(1)
+                .get();
+        })
+        .then(snapShot => {
+            if(!snapShot.empty)
+                return res.status(200).json(snapShot.docs[0].data());
+            else
+                return res.status(204).json({message: 'User not found'});
         })
         .catch(err => {
             console.error("Error signing in: " + err);
-            return res.status(500).json({error: err}).send();
+            return res.status(500).json({error: err.code}).send();
         });
 
 }
 
 exports.updateUser = function(req, res){
 
-    if(!res.locals.isAuthenticated || devAuth)
+    if(!res.locals.isAuthenticated && !devAuth)
         return res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'}).send();
 
     let userDetails = reduceUserDetails(req.body);
@@ -130,7 +139,7 @@ exports.updateUser = function(req, res){
 
 exports.removeUser = function(req, res){
 
-    if(!res.locals.isAuthenticated || devAuth)
+    if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'}).send();
 
     admin.auth().deleteUser(res.locals.user.userID)
@@ -159,7 +168,7 @@ exports.emailRecovery = function(req, res){
 
 exports.uploadProfileImage = function(req, res){
 
-    if(!res.locals.isAuthenticated || devAuth)
+    if(!res.locals.isAuthenticated && !devAuth)
         return res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'});
 
     const BusBoy = require('busboy');
