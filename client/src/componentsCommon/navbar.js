@@ -26,7 +26,7 @@ export const Navigationbar = (props) => {
         <nav className="navbar navbar-custom row">
           <div className="left-nav">  
           <Link to="/">
-              <h1 className="nav-logo" onClick={() => setcurrentPage(2)}>Logo/Name</h1>
+              <h1 className="nav-logo" onClick={() => setcurrentPage(2)}><img className="logo-img" src="./supplyway-logo.png"></img></h1>
             </Link>
           </div>
           <Link to={"/all-listings"} onClick={() => setcurrentPage(1)} className={currentPage==1?"nav-page nav-page-active": "nav-page"} href="#">

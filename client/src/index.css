@@ -161,6 +161,11 @@ start */
   text-align: left;
 }
 
+.logo-img{
+  margin-top:-.6em;
+  height: 2.3em;
+}
+
 .left-nav-login{
   width: 65%;
   text-align: left;

@@ -9,13 +9,13 @@ export const NavigationbarLogin = (props) => {
         <nav className="navbar navbar-custom row">
           <div className="left-nav-login">  
           <Link to="/">
-              <h1 className="nav-logo" onClick={() => setcurrentPage(2)}>Logo/Name</h1>
+              <div className="nav-logo" onClick={() => setcurrentPage(2)}><img className="logo-img" src="./supplyway-logo.png"></img></div>
             </Link>
           </div>
-          <Link to={"/"} onClick={() => setcurrentPage(1)} className={currentPage==1?"nav-page nav-page-active": "nav-page-login"} href="#">
+          <Link to={"/"} onClick={() => setcurrentPage(1)} className={currentPage==1?"nav-page nav-page-active": "nav-page"} href="#">
               <p>Home</p>
             </Link>
-          <Link to={"/Login"} onClick={() => setcurrentPage(2)} className={currentPage==2?"nav-page nav-page-active": "nav-page-login"} href="#">
+          <Link to={"/Login"} onClick={() => setcurrentPage(2)} className={currentPage==2?"nav-page nav-page-active": "nav-page"} href="#">
               <p>Login</p>
             </Link>
           </nav>
