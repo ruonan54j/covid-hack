@@ -11,12 +11,12 @@ import { ListingsContext } from "../ListingsContext";
 const Map = (props) => {
     const {listings, setListings} = useContext(ListingsContext);
     //const [listings, setListings] = React.useState([{id:1,title: "cheap face masks", lat:44,lng:-76},{id: 2, title: "cheap face masks2",lat:46,lng:-76},{id: 3, title: "cheap face masks3",lat:45.5,lng:-74}]);
-    const [selectedListing, setSelectedListing] = useState(null);
+    const [selectedListing, setSelectedListing] = useState((listings.length!==0)?listings[0]:"");
     let i = 0;
     return (
         <GoogleMap 
         defaultZoom={8}
-        center={{lat: (listings.length!==0)?parseFloat(listings[0].lat): 0, lng: (listings.length!==0)?parseFloat(listings[0].long):0}}
+        center={{lat: (listings.length!==0 && (selectedListing.lat!== undefined))?parseFloat(selectedListing.lat): 0, lng: (listings.length!==0 && (listings.long!== undefined))?parseFloat(listings[0].long):0}}
         >
         {
             listings.map( listing => (
@@ -33,8 +33,8 @@ const Map = (props) => {
             selectedListing && (
                 <InfoWindow 
                 position={{
-                    lat: selectedListing.lat, 
-                    lng: selectedListing.long
+                    lat: (selectedListing.lat!== NaN)?parseFloat(selectedListing.lat): 0, 
+                    lng: (selectedListing.long !== NaN)?parseFloat(selectedListing.long): 0
                     }}
                 onCloseClick={() => {
                     setSelectedListing(null);

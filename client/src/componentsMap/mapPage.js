@@ -4,10 +4,13 @@ import PostListing from "./postListing";
 import PostPopup from "./postPopup";
 import AddListing from './addPost';
 import { ListingsContext } from "../ListingsContext";
+import { selectedPostContext } from "../selectedContext";
 
 const MapPage = (props) => {
+    
     const [listings, setListings] = React.useState([]);
-
+    const [selectedPost, setSelectedPost] = React.useState([]);
+    
     useEffect(() => {
         fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts')
             .then(res => {
@@ -23,6 +26,7 @@ const MapPage = (props) => {
      
     return (
         <ListingsContext.Provider value={{listings, setListings}}>
+             <selectedPostContext.Provider value={{selectedPost, setSelectedPost}}>
         <div className="row">
                  <PostPopup />
                  <AddListing/>
@@ -39,6 +43,7 @@ const MapPage = (props) => {
       />
       </div>
       </div>
+      </selectedPostContext.Provider>
       </ListingsContext.Provider>
     )
 }

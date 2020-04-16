@@ -11,6 +11,19 @@ const PartListing = () => {
     }]);
     
     useEffect(() => {
+      fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/parts')
+          .then(res => {
+          console.log("res", res);
+          return res.json().then((data) =>{
+              console.log("DATA",data);
+              if (res.status == 200){
+              setPartDetails(data);
+              }
+          })
+  });
+  }, []);
+/*
+    useEffect(() => {
       // code to run on component mount
       // make ajax request
       let partArr = [];
@@ -23,12 +36,12 @@ const PartListing = () => {
       }
       setPartDetails(partArr);
     }, [])
-    
+    */
     let partListing = [];
     for (var i = 0; i < partDetails.length; i++) {
         partListing.push(
           <div key={i} className="col-6">
-          <Part title={partDetails[i].title} description={partDetails[i].description} img={partDetails[i].img}/> 
+          <Part part={partDetails[i]}/> 
             </div>
         );
     }
