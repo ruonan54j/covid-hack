@@ -17,7 +17,7 @@ exports.findUser = function(req, res){
         .limit(1)
         .get()
         .then((snapShot) => {
-            if(!snapShot.empty)
+            if(!(snapShot.empty))
                 return res.status(200).json(snapShot.docs[0].data());
             else
                 return res.status(204).json({message: 'User not found'});
@@ -110,10 +110,12 @@ exports.loginUser = function(req, res) {
                 .get();
         })
         .then(snapShot => {
-            if(!snapShot.empty)
+            if(!(snapShot.empty)){
                 return res.status(200).json(snapShot.docs[0].data());
-            else
+            }
+            else{
                 return res.status(204).json({message: 'User not found'});
+            }
         })
         .catch(err => {
             console.error("Error signing in: " + err);

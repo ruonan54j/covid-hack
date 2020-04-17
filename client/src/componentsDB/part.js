@@ -13,7 +13,7 @@ const Part = (props) => {
     return (
       <div className="part-post">
         <div className="row">
-        <div className= "col-8 part-content">
+        <div className= "part-content">
         <h1 className="part-title">{props.part.title}</h1>
         <p className="part-description">{props.part.description}</p>
   
@@ -21,7 +21,7 @@ const Part = (props) => {
          I can make this part
         </button>
         </div>
-        <div className="col-4 right-div">
+        <div className="right-div">
           <img src={props.part.img} alt = "valves" className="part-img"/>
         </div>
         </div>
