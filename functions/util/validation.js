@@ -3,73 +3,48 @@ const isEmail = (email) => {
     return Boolean(email.match(regEx));
 };
 
-let options = {
-    provider: 'openstreetmap',
-}
-const geoCoder = require('node-geocoder')(options);
+const opencage = require('opencage-api-client');
 
-let getGeoCode = (address, city, country) => {
-
-    let stringToGeocode;
-    // Conditionals determine which string to give to the geoCoder
-    if(!(exports.isEmpty(address))){
-        stringToGeocode = address
-    }
-    else if(!(exports.isEmpty(city))){
-        stringToGeocode = city
-    }
-    else if(!(exports.isEmpty(country))){
-        stringToGeocode = country
-    }
-    // If everything is empty/undefined - return null
-    else{
-        return null;
-    }
-
-    return geoCoder.geocode(stringToGeocode);
-
+exports.getGeoCode=(address, city, country)=>{
+    let promiseArr = [];
+    promiseArr.push(callGeo(address), callGeo(city), callGeo(country));
+    return Promise.all(promiseArr).then((values) => {
+        console.log("HERE",values);
+        for(let i=0; i< values.length; i++){
+            if(values[i] !== undefined && values[i] !== 0){
+                return values[i];
+            }
+        }
+        return;
+      })
+      .catch((e)=>{
+          console.log(e);
+      })
 }
 
-exports.getGeoCodeLat=(address, city, country)=>{
-
-    // Gets geoCode and returns back the latitude if geoCode request was successful
-    let code = getGeoCode(address, city, country)
-    if(code !== null){
-        return code
-            .then((res) => {
-                return res[0].latitude;
-            })
-            .catch((err) => {
-                console.log(err);
-                return 0;
-            });
-    }
-    // Else returns 0
-    else{
-        return 0;
-    }
-
-}
-
-exports.getGeoCodeLong=(address, city, country)=>{
-
-    // Gets geoCode and returns back the longitude if geoCode request was successful
-    let code = getGeoCode(address, city, country)
-    if(code !== null){
-        return code
-            .then((res) => {
-                return res[0].longitude;
-            })
-            .catch((err) => {
-                console.log(err);
-                return 0;
-            })
-    }
-    // Else returns 0
-    else{
-        return 0;
-    }
-
+const callGeo=(input)=>{
+    return opencage.geocode({q: input}).then(data => {
+        if (data.status.code === 200) {
+          if (data.results.length > 0) {
+            var place = data.results[0];
+            console.log(place.geometry);
+            return place.geometry;
+          } else {
+          return 0;
+          }
+        } else if (data.status.code === 402) {
+          console.log('hit free-trial daily limit');
+          console.log('become a customer: https://opencagedata.com/pricing'); 
+          return 0;
+        } else {
+          // other possible response codes:
+          // https://opencagedata.com/api#codes
+          console.log('error', data.status.message);
+          return 0;
+        }
+      }).catch(error => {
+        console.log('error', error.message);
+      });
 }
 
 exports.isEmpty = (string) => {

@@ -1,5 +1,5 @@
 const {admin, db} = require('../util/admin');
-const {validateNewPostData, isEmpty, getGeoCodeLat, getGeoCodeLong} = require('../util/validation');
+const {validateNewPostData, isEmpty, getGeoCode, getGeoCodeLong} = require('../util/validation');
 const postCollection = db.collection('posts');
 const devAuth = require('../util/env').DevAuth;
 
@@ -150,10 +150,13 @@ exports.createPost = function(req, res){
         })
         .then(() => {
             let data = req.body;
-            data.lat = getGeoCodeLat(req.body.address, req.body.city, req.body.country);
-            data.long = getGeoCodeLong(req.body.address, req.body.city, req.body.country);
-            
-            return res.status(201).json({message: 'Post Created Successfully', request: data});
+            // eslint-disable-next-line promise/no-nesting
+            return getGeoCode(req.body.address, req.body.city, req.body.country).then((geo)=>{
+                data.long = geo.lng;
+                data.lat = geo.lat;
+                console.log("data,",data);
+                return res.status(201).json({message: 'Post Created Successfully', request: data});
+            });
         })
         .catch(err => {
             console.log(err);
