@@ -14,21 +14,21 @@ exports.validateSignUpData = (newUser) => {
     let errors = {};
 
     // Handle field
-    if (newUser.handle === undefined || isEmpty(newUser.handle)) errors.handle = 'Must not be undefined or empty';
+    if (newUser.handle === undefined || exports.isEmpty(newUser.handle)) errors.handle = 'Must not be undefined or empty';
 
     // Sign Up Method
-    if (newUser.handle === undefined || isEmpty(newUser.signUpMethod)) errors.signUpMethod = 'Must not be empty (Google or Email)'
+    if (newUser.handle === undefined || exports.isEmpty(newUser.signUpMethod)) errors.signUpMethod = 'Must not be empty (Google or Email)'
     if (newUser.signUpMethod.toLowerCase() === 'email'){
         // Email Field
-        if (newUser.email === undefined || isEmpty(newUser.email)) errors.email = 'Must not be undefined or empty';
+        if (newUser.email === undefined || exports.isEmpty(newUser.email)) errors.email = 'Must not be undefined or empty';
         else if (!isEmail(newUser.email)) errors.email = 'Must be a valid email address';
 
         // Password Field
-        if (newUser.password === undefined || isEmpty(newUser.password)) errors.password = 'Must not be undefined or empty'
+        if (newUser.password === undefined || exports.isEmpty(newUser.password)) errors.password = 'Must not be undefined or empty'
     }
     else if (newUser.signUpMethod.toLowerCase() === 'google'){
         // Sign Up Token
-        if (!newUser.hasOwnProperty('signUpToken') || isEmpty(newUser.signUpToken)) errors.signUpToken = 'signUpToken not optional';
+        if (!newUser.hasOwnProperty('signUpToken') || exports.isEmpty(newUser.signUpToken)) errors.signUpToken = 'signUpToken not optional';
     }
     else
         errors.signUpMethod = 'Not a valid sign up method';
@@ -48,12 +48,12 @@ exports.reduceUserDetails = (data) => {
     let errors = {};
 
     // User Handle
-    if(!isEmpty(data.handle)) userDetails.handle = data.handle;
+    if(!exports.isEmpty(data.handle)) userDetails.handle = data.handle;
     else
         errors.handle = 'Must not be empty';
 
     // User Bio
-    if(!isEmpty(data.bio)) userDetails.bio = data.bio;
+    if(!exports.isEmpty(data.bio)) userDetails.bio = data.bio;
 
     // User Location Data
     if(data.hasOwnProperty('latitude') && data.hasOwnProperty('longitude')){
@@ -81,8 +81,8 @@ exports.validateNewPostData = (post) => {
 
     let errors = {};
     // Basic Validation
-    if(!post.hasOwnProperty('userHandle') || isEmpty(post.userHandle)) errors.userHandle = 'Must not be empty'
-    if(!post.hasOwnProperty('title') || isEmpty(post.title)) errors.title = 'Must not be empty'
+    if(!post.hasOwnProperty('userHandle') || exports.isEmpty(post.userHandle)) errors.userHandle = 'Must not be empty'
+    if(!post.hasOwnProperty('title') || exports.isEmpty(post.title)) errors.title = 'Must not be empty'
     // Add additional as necessary
 
     return {
