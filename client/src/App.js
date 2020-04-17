@@ -21,13 +21,22 @@ function App() {
   const [selectedPost, setSelectedPost] = React.useState([]);
 
   let apiKey = process.env.REACT_APP_GOOGLE_KEY;
+  useEffect(()=>{
+    let user = localStorage.getItem('currentUser');
+    if(user !== null || user !== undefined){
+      setCurrentUser(user);
+      setIsAuthenticated(true);
+    }
+  },[]);
   useEffect(
     () => {
       if(currentUser === null){
-        console.log("current user updated", currentUser);
-        setIsAuthenticated(false);
+          localStorage.clear();
+          console.log("current user updated", currentUser);
+          setIsAuthenticated(false);
       }
-      else if(currentUser._currentValue != false){
+      else if(currentUser._currentValue != false) {
+        localStorage.setItem("currentUser", currentUser);
         console.log("current user updated", currentUser);
         setIsAuthenticated(true);
       }
