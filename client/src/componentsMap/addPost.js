@@ -64,7 +64,8 @@ const handleSubmitBtn=(e) => {
       },
       body: JSON.stringify(
         { 
-          "userHandle": "123",	
+          "userID": currentUser.userID,
+          "userHandle": currentUser.handle,	
           "title": title.toString(),
           "description": description.toString(),
           "address": address.toString(),

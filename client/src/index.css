@@ -14,7 +14,11 @@ code {
     monospace;
 }
 
-
+.no-bullet-ul{
+  padding: 0;
+  margin-left: 0;
+  list-style-type: none;
+}
 /* 
 start */
 .close-btn-part{
@@ -163,12 +167,46 @@ start */
 }
 .profile-popup{
   z-index: 3;
-  padding: 1em;
-  margin-left: 80vw;
-  width: 20vw;
+  margin-left: 70vw;
+  width: 30vw;
   background-color: white;
   margin-top: 1em;
+  padding-left: 0;
+  padding-top: 2em;
+  padding-bottom: 2em;
   position: fixed;
+}
+.logout-div{
+  margin-left: 5%;
+}
+.profile-content{
+  margin-bottom: 1em;
+}
+.delete-post{
+  width: 20%;
+  padding: .7em;
+  color: gray;
+  font-size: .8em;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.delete-post:hover{
+  color: white;
+  text-decoration: none;
+  background-color: #bf281d;
+}
+.user-posts{
+  width: 80%;
+  padding: .5em;
+  color: #0d6abf;
+  text-decoration: underline;
+}
+
+.user-posts:hover{
+  color: white;
+  text-decoration: none;
+  background-color: #00609A;
 }
 
 .icon-toggle{
@@ -613,7 +651,6 @@ start */
   margin: 5%;
   padding:.8em;
   border-radius: 1em;
-
 }
 
 .listing-type-chosen{
@@ -767,6 +804,7 @@ start */
   }
 }
 @media only screen and (min-device-width: 551px) and (max-device-width: 768px){
+
   /*post*/
   .search-input{
     margin-top: 3em;
@@ -842,13 +880,23 @@ start */
   .login-btn{
     width: 40%;
   }
+
   .login-input{
     width: 80%;
+  }
+
+  .profile-popup{
+    margin-left: 50vw;
+    width: 50vw;
   }
 }
 
 @media only screen and (max-device-width: 550px){
 
+  .profile-popup{
+    margin-left: 10vw;
+    width: 90vw;
+  }
   /*mobile post*/
   .post-popup{
     margin: 5% 5% auto 5%;
@@ -909,7 +957,6 @@ start */
   .popup-col{
     width: 100%;
   }
-  
 
   .popup-title{
     font-size: 1.5em;
@@ -1029,7 +1076,6 @@ start */
   .login-image{
     height: 50vh;
   }
-
 
 }
 

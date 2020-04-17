@@ -12,10 +12,14 @@ import WrapperLogin from './componentsLogin/wrapperLogin';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { UserContext } from "./UserContext";
 import Landing from './landingPage/landing';
+import { selectedPostContext } from "./selectedContext";
+import PostPopup from './componentsMap/postPopup';
 function App() {
 
   const [currentUser, setCurrentUser] = useState(UserContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [selectedPost, setSelectedPost] = React.useState([]);
+
   let apiKey = process.env.REACT_APP_GOOGLE_KEY;
   useEffect(
     () => {
@@ -34,6 +38,8 @@ function App() {
   <BrowserRouter>
   
   <UserContext.Provider value={{currentUser, setCurrentUser}}>
+  <selectedPostContext.Provider value={{selectedPost, setSelectedPost}}>
+  <PostPopup />
     {(!isAuthenticated)? <NavigationbarLogin/>:<Navigationbar/>}
       <div className="App">
         <Switch>
@@ -60,6 +66,8 @@ function App() {
             : <Landing/>)} />
       </Switch>
     </div>
+    </selectedPostContext.Provider>
+
     </UserContext.Provider>
   </BrowserRouter>
   );

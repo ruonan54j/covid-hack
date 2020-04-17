@@ -17,7 +17,6 @@ const SearchBar = (props) => {
          />
          <button className="search-btn">Enter</button>
        </div>
-   
      );
    }
    
