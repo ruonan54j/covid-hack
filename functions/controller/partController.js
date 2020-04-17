@@ -3,13 +3,13 @@ const {db} = require('../util/admin');
 const partCollection = db.collection('parts');
 
 exports.findPart = function(req , res , next){
-    var id = req.body.partID;
+    var id = req.params.partID;
     partCollection.doc(id).get().then((snapshot) => {
         if (!snapshot.exists){
             console.log("part id not found ");
             return res.status(204).json({error:"Part with id : " + id + " doesn't exist"});
         }else{
-            return res.status(200).json(snapshot);
+            return res.status(200).json(snapshot.data());
         }
     }).catch(err => {
         console.log("error getting data " + err);
