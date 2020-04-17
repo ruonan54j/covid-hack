@@ -1,5 +1,5 @@
 const {admin, db} = require('../util/admin');
-const {validateNewPostData, isEmpty, getGeoCode, getGeoCodeLong} = require('../util/validation');
+const {validateNewPostData, isEmpty, getGeoCode, storageRef} = require('../util/validation');
 const postCollection = db.collection('posts');
 const devAuth = require('../util/env').DevAuth;
 
@@ -152,8 +152,13 @@ exports.createPost = function(req, res){
             let data = req.body;
             // eslint-disable-next-line promise/no-nesting
             return getGeoCode(req.body.address, req.body.city, req.body.country).then((geo)=>{
-                data.long = geo.lng;
-                data.lat = geo.lat;
+                if(geo !== undefined){
+                    data.long = geo.lng;
+                    data.lat = geo.lat;
+                } else {
+                    data.long= 0;
+                    data.lat = 0;
+                }
                 console.log("data,",data);
                 return res.status(201).json({message: 'Post Created Successfully', request: data});
             });
@@ -186,7 +191,6 @@ exports.deletePost = function(req , res){
         })
 
 }
-
 
 
 

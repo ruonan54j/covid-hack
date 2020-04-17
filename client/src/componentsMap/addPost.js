@@ -21,6 +21,10 @@ const AddListing = () => {
   const [delivery, setDelivery] = useState("pickup");
   
   const handleSetImg = (file) => {
+    if(file.size > 300000){
+      alert("file must be under 300kb!");
+      return;
+    }
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {

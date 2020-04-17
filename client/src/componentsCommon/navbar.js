@@ -18,13 +18,8 @@ export const Navigationbar = (props) => {
     console.log('GOT HERE', currentUser);
     if (currentUser !== null){
       handleQ = currentUser.handle;
-    } else {
-      let storageUser = localStorage.getItem('currentUser');
-      if(storageUser !== undefined || storageUser !== null){
-        setCurrentUser(storageUser);
-      }
-    }
-    
+    } 
+     console.log("nav handle", handleQ);
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts?handle='+handleQ)
         .then(res => {
         console.log("res here", res);

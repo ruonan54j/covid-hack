@@ -22,12 +22,22 @@ function App() {
 
   let apiKey = process.env.REACT_APP_GOOGLE_KEY;
   useEffect(()=>{
-    let user = JSON.parse(localStorage.getItem('currentUser'));
-    console.log('USER,', user);
-    if(user !== null && user !== undefined){
-      setCurrentUser(user);
-      setIsAuthenticated(true);
-    } else {
+    let userID = localStorage.getItem('currentUser');
+    if(userID !== null || userID !== undefined) {
+      fetch("https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/users/"+userID)
+      .then(res=>{
+        res.json().then((data) =>{
+            setCurrentUser(data);
+            setIsAuthenticated(true);
+        }).catch((e)=>{
+          console.log(e);
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      });
+
+    } else{
       setIsAuthenticated(false);
     }
   },[]);
@@ -39,7 +49,7 @@ function App() {
           setIsAuthenticated(false);
       }
       else if(currentUser._currentValue != false) {
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        localStorage.setItem("currentUser", currentUser.userID);
         console.log("current user updated", currentUser);
         setIsAuthenticated(true);
       }

@@ -23,6 +23,7 @@ exports.getGeoCode=(address, city, country)=>{
 }
 
 const callGeo=(input)=>{
+    
     return opencage.geocode({q: input}).then(data => {
         if (data.status.code === 200) {
           if (data.results.length > 0) {
