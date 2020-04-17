@@ -64,8 +64,7 @@ const handleSubmitBtn=(e) => {
       },
       body: JSON.stringify(
         { 
-          "userID": currentUser.userID,
-          "userHandle": currentUser.handle,	
+          "userHandle": "123",	
           "title": title.toString(),
           "description": description.toString(),
           "address": address.toString(),
@@ -87,10 +86,7 @@ const handleSubmitBtn=(e) => {
       return res.json().then((data) =>{
         console.log("DATA",data);
         if (res.status === 201){
-          alert("post created");
-          document.getElementById("overlay-add-listing").style.display = "none";
-        } else {
-          alert("error creating post");
+          window.location.reload(false);
         }
       })
     });
@@ -103,7 +99,7 @@ const handleSubmitBtn=(e) => {
           <p className="popup-grey-text">INFORMATION</p>
           <form>
             <div className="row">
-             <div className="col-6-md">
+             <div className="col-6">
           <input placeholder="Title"  onChange={e => setTitle(e.target.value)} className="add-listings-input"/>
           <textarea rows="4" 
           onChange={e => setDescription(e.target.value)} 
@@ -126,7 +122,7 @@ const handleSubmitBtn=(e) => {
               className="add-listings-input"/>
           
               </div>
-              <div className="col-6-md right-col-add-listing">
+              <div className="col-6 right-col-add-listing">
               <input placeholder="Price per unit" 
               onChange={e => setPrice(e.target.value)} 
               className="add-listings-input"/>
