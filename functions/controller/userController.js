@@ -12,13 +12,11 @@ const isEmpty = (string) => {
 
 exports.findUser = function(req, res){
 
-    db.collection('/users')
-        .where("userID", "==", req.params.userID)
-        .limit(1)
+    db.doc(`/users/${req.params.userID}`)
         .get()
-        .then((snapShot) => {
-            if(!(snapShot.empty))
-                return res.status(200).json(snapShot.docs[0].data());
+        .then((doc) => {
+            if(!(doc.exists))
+                return res.status(200).json(doc.data());
             else
                 return res.status(204).json({message: 'User not found'});
         })
@@ -43,48 +41,60 @@ exports.signUpUser = function(req, res){
 
     let noImg = newUser.isSupplier ? 'no-img-supplier.png' : 'no-img-buyer.png';
 
-    let token, userID, userData;
-    return db.doc(`/users/${newUser.handle}`)
-        .get()
-        .then((doc) => {
-            if (doc.exists)
-                throw Error('User Handle already taken');
+    let UserCredentialPromise;
+    if(newUser.signUpMethod === 'Email')
+        UserCredentialPromise = firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password);
+    else if (newUser.signUpMethod === 'Google')
+        UserCredentialPromise = firebase.auth().signInWithCredential(newUser.signUpToken);
 
-            if(newUser.signUpMethod === 'Email')
-                return firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password);
-            else if (newUser.signUpMethod === 'Google')
-                return firebase.auth().signInWithCredential(newUser.signUpToken);
-
-            // If the user sign in method is other than Email or Google
-            throw Error('Sign up method not supported');
-        })
-        .then(data => {
+    let myToken, userID, userData, sysError, sysErrorDetail;
+    return UserCredentialPromise
+        .then((data) => {
             userID = data.user.uid;
-            let retUser = data.user;
             return data.user.getIdToken();
         })
-        .then((idToken) => {
-            token = idToken;
-            userData = {
-                handle: newUser.handle,
-                email: newUser.email,
-                createdAt: new Date().toISOString(),
-                isVerified: false,
-                isSupplier: newUser.isSupplier,
-                imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
-                userID
-            };
-            return db.doc(`/users/${newUser.handle}`).set(userData);
+        .then((token) => {
+            myToken = token;
+            return db.collection(`/users`)
+                .where('userHandle', "==", newUser.handle)
+                .get();
         })
-        .then((user) => {
+        .then(snapShot => {
+            if (!(snapShot.empty))
+                throw Error('User Handle already taken');
+            else{
+                userData = {
+                    handle: newUser.handle,
+                    email: newUser.email,
+                    createdAt: new Date().toISOString(),
+                    isVerified: false,
+                    isSupplier: newUser.isSupplier,
+                    imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
+                    userID
+                };
+                return db.doc(`/users/${userData.userID}`).set(userData);
+            }
+        })
+        .then(() => {
+            userData.token = myToken;
             return res.status(201).json(userData);
         })
         .catch((err) => {
             console.error(err);
-            if (err.code === 'auth/email-already-in-use')
-                return res.status(400).json({ email: 'Email is already is use in Firebase Auth System' });
-            else
-                return res.status(500).json({error: err.message});
+            if (err.code.startsWith('auth/'))
+                return res.status(400).json({error: err.code, errorMessage: err.message});
+            // Delete firebase account if handle is taken.
+            else {
+                sysError = err.code;
+                sysErrorDetail = err.message;
+                return admin.auth().deleteUser(userID)
+            }
+        })
+        .then(() => {
+            return res.status(500).json({error: sysError, errorMessage: sysErrorDetail});
+        })
+        .catch(() => {
+            return res.status(500).json({error: sysError, errorMessage: sysErrorDetail, email: "Email still logged... Need admin help"});
         });
 }
 
@@ -102,16 +112,22 @@ exports.loginUser = function(req, res) {
     if (isEmpty(user.password)) errors.password = 'Must not be empty';
     if (Object.keys(errors) > 0) res.status(400).json(errors).send();
 
+    let userToken, userID;
     return firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(data => {
-            return db.collection('/users')
-                .where("userID", "==", data.user.uid)
-                .limit(1)
+            userID = data.user.uid;
+            return data.user.getIdToken();
+        })
+        .then(token => {
+            userToken = token;
+            return db.doc(`/users/${userID}`)
                 .get();
         })
-        .then(snapShot => {
-            if(!(snapShot.empty)){
-                return res.status(200).json(snapShot.docs[0].data());
+        .then(doc => {
+            if(doc.exists){
+                const user = doc.data();
+                user.token = userToken;
+                return res.status(200).json(user);
             }
             else{
                 return res.status(204).json({message: 'User not found'});
@@ -130,7 +146,7 @@ exports.updateUser = function(req, res){
         return res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'}).send();
 
     let userDetails = reduceUserDetails(req.body);
-    return db.doc(`/users/${res.locals.user.handle}`).update(userDetails)
+    return db.doc(`/users/${req.params.userID}`).update(userDetails)
         .then(() => {
             return res.status(200).json({message: "User updated successfully"})
         })
@@ -144,9 +160,9 @@ exports.removeUser = function(req, res){
     if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'Not authorized to edit user data'}).send();
 
-    admin.auth().deleteUser(res.locals.user.userID)
+    admin.auth().deleteUser(req.params.userID)
         .then(() => {
-            return db.doc(`/users/${res.locals.user.handle}`).delete();
+            return db.doc(`/users/${req.params.userID}`).delete();
         })
         .then(() => {
             return res.status(200).json({message: 'User Deleted Successfully'});

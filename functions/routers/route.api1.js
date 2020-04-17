@@ -43,6 +43,9 @@ router.put(postRoute + postID, postController.updatePost);
 router.post(postRoute, postController.createPost);
 router.delete(postRoute + postID, postController.deletePost);
 
+// Get a user's posts
+router.get(userRoute + userID + postRoute, postController.getUserPosts) ;
+
 // Part Endpoints
 router.get(partRoute + partID, partController.findPart);
 router.get(partRoute, partController.getPart);

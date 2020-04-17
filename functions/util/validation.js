@@ -34,7 +34,7 @@ exports.validateSignUpData = (newUser) => {
         errors.signUpMethod = 'Not a valid sign up method';
 
     // User Type (is Supplier?)
-    if (!newUser.isSupplier === undefined) errors.isSupplier = 'Not optional - must indicate true or false (boolean)'
+    if (newUser.isSupplier === undefined) errors.isSupplier = 'Not optional - must indicate true or false (boolean)'
 
     return {
         errors,
@@ -47,6 +47,7 @@ exports.reduceUserDetails = (data) => {
     let userDetails = {};
     let errors = {};
 
+    // TODO: Decide whether changing user handles is something we want to do
     // User Handle
     if(!exports.isEmpty(data.handle)) userDetails.handle = data.handle;
     else
@@ -81,7 +82,7 @@ exports.validateNewPostData = (post) => {
 
     let errors = {};
     // Basic Validation
-    if(!post.hasOwnProperty('userHandle') || exports.isEmpty(post.userHandle)) errors.userHandle = 'Must not be empty'
+    if(!post.hasOwnProperty('userID') || exports.isEmpty(post.userID)) errors.userID = 'Must not be empty'
     if(!post.hasOwnProperty('title') || exports.isEmpty(post.title)) errors.title = 'Must not be empty'
     // Add additional as necessary
 

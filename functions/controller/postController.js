@@ -108,7 +108,6 @@ exports.createPost = function(req, res){
     if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
 
-    // TODO: Validate Post data fields
     const newPost = req.body;
     const {valid, errors} = validateNewPostData(newPost);
     if(!valid)
@@ -116,7 +115,7 @@ exports.createPost = function(req, res){
 
     db.collection('posts').add(newPost)
         .then((dataRef) => {
-            return db.doc(`/users/${newPost.userHandle}`).update({
+            return db.doc(`/users/${newPost.userID}`).update({
                 posts: admin.firestore.FieldValue.arrayUnion(dataRef.id)
             });
         })
@@ -138,9 +137,12 @@ exports.deletePost = function(req , res){
     if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
 
+    /*
     if(!res.locals.user.posts.includes(req.params.postID))
         res.status(403).json({error: 'Forbidden Post Edit', errorMessage: "Not in user's post list"}).send();
+    */
 
+    // TODO: Remove postID from user doc's postID array
     postCollection.doc(req.params.postID).delete()
         .then(() => {
             return res.status(200).json({message: 'Post deletion successful'}).send();
@@ -152,6 +154,22 @@ exports.deletePost = function(req , res){
 
 }
 
-
-
+exports.getUserPosts = function(req, res){
+    let getPost = postCollection
+        .where("userID", "==", req.params.userID)
+        .get()
+        .then((snapShot) => {
+            let posts = [];
+            snapShot.forEach(doc => {
+                posts.push(doc.data());
+            });
+            if(posts.length > 0)
+                return res.status(200).json(posts);
+            else
+                return res.status(204).json({message: 'No posts found'});
+        })
+        .catch(err => {
+            console.error('Error getting collection of posts', err);
+        });
+}
 
