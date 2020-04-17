@@ -9,7 +9,7 @@ import MapPage from './componentsMap/mapPage';
 import Login from './componentsLogin/login';
 import SignUp from './componentsLogin/signup';
 import WrapperLogin from './componentsLogin/wrapperLogin';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect, HashRouter } from 'react-router-dom';
 import { UserContext } from "./UserContext";
 import Landing from './landingPage/landing';
 import { selectedPostContext } from "./selectedContext";
@@ -44,7 +44,7 @@ function App() {
     [currentUser]
   );
   return (
-  <BrowserRouter>
+  <HashRouter>
   
   <UserContext.Provider value={{currentUser, setCurrentUser}}>
   <selectedPostContext.Provider value={{selectedPost, setSelectedPost}}>
@@ -78,7 +78,7 @@ function App() {
     </selectedPostContext.Provider>
 
     </UserContext.Provider>
-  </BrowserRouter>
+  </HashRouter>
   );
 }
 
