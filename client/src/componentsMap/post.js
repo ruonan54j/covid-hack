@@ -12,7 +12,7 @@ const Post = (props) => {
   return (
     <div className="post" onClick={()=>handleBuyerClick()}>
       <div className="row">
-      <div className= "col-8">
+      <div className= "left-post-div">
         <p className="post-author">Listed by {props.post.handle}</p>
       <h1 className="post-title">{props.post.title}</h1>
       <p className="post-distance">{props.post.distance} kilometers away</p>
@@ -27,7 +27,7 @@ const Post = (props) => {
         </div>
       
       </div>
-      <div className="col-4 right-div">
+      <div className="right-post-div">
         <img src={props.post.img} alt = "valves" className="post-img"/>
       </div>
       </div>

@@ -9,21 +9,36 @@ import MapPage from './componentsMap/mapPage';
 import Login from './componentsLogin/login';
 import SignUp from './componentsLogin/signup';
 import WrapperLogin from './componentsLogin/wrapperLogin';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect, HashRouter } from 'react-router-dom';
 import { UserContext } from "./UserContext";
 import Landing from './landingPage/landing';
+import { selectedPostContext } from "./selectedContext";
+import PostPopup from './componentsMap/postPopup';
 function App() {
 
   const [currentUser, setCurrentUser] = useState(UserContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [selectedPost, setSelectedPost] = React.useState([]);
+
   let apiKey = process.env.REACT_APP_GOOGLE_KEY;
+  useEffect(()=>{
+    let user = localStorage.getItem('currentUser');
+    if(user !== null && user !== undefined){
+      setCurrentUser(user);
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  },[]);
   useEffect(
     () => {
       if(currentUser === null){
-        console.log("current user updated", currentUser);
-        setIsAuthenticated(false);
+          localStorage.clear();
+          console.log("current user updated", currentUser);
+          setIsAuthenticated(false);
       }
-      else if(currentUser._currentValue != false){
+      else if(currentUser._currentValue != false) {
+        localStorage.setItem("currentUser", currentUser);
         console.log("current user updated", currentUser);
         setIsAuthenticated(true);
       }
@@ -31,9 +46,11 @@ function App() {
     [currentUser]
   );
   return (
-  <BrowserRouter>
+  <HashRouter>
   
   <UserContext.Provider value={{currentUser, setCurrentUser}}>
+  <selectedPostContext.Provider value={{selectedPost, setSelectedPost}}>
+  <PostPopup />
     {(!isAuthenticated)? <NavigationbarLogin/>:<Navigationbar/>}
       <div className="App">
         <Switch>
@@ -60,8 +77,10 @@ function App() {
             : <Landing/>)} />
       </Switch>
     </div>
+    </selectedPostContext.Provider>
+
     </UserContext.Provider>
-  </BrowserRouter>
+  </HashRouter>
   );
 }
 
