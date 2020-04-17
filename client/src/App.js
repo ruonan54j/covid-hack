@@ -22,7 +22,8 @@ function App() {
 
   let apiKey = process.env.REACT_APP_GOOGLE_KEY;
   useEffect(()=>{
-    let user = localStorage.getItem('currentUser');
+    let user = JSON.parse(localStorage.getItem('currentUser'));
+    console.log('USER,', user);
     if(user !== null && user !== undefined){
       setCurrentUser(user);
       setIsAuthenticated(true);
@@ -38,7 +39,7 @@ function App() {
           setIsAuthenticated(false);
       }
       else if(currentUser._currentValue != false) {
-        localStorage.setItem("currentUser", currentUser);
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
         console.log("current user updated", currentUser);
         setIsAuthenticated(true);
       }

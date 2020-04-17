@@ -15,14 +15,23 @@ export const Navigationbar = (props) => {
   const [userPosts, setUserPosts]=useState([]);
   useEffect(() => {
     let handleQ = "";
-    if (currentUser != null){
+    console.log('GOT HERE', currentUser);
+    if (currentUser !== null){
       handleQ = currentUser.handle;
+    } else {
+      let storageUser = localStorage.getItem('currentUser');
+      if(storageUser !== undefined || storageUser !== null){
+        setCurrentUser(storageUser);
+      }
     }
+    
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts?handle='+handleQ)
         .then(res => {
         console.log("res here", res);
-        return res.text().then((data) =>{
+        return res.json().then((data) =>{
+
             console.log("DATA here",data, data.length, data[0]);
+
             if (res.status == 200){
             setUserListings(data);
             let postu =[];
@@ -35,6 +44,9 @@ export const Navigationbar = (props) => {
             }
             setUserPosts(postu);
             }
+        })
+        .catch((err)=>{
+          console.log(err);
         })
     });
     }, [profileOpen]);
