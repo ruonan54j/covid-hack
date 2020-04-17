@@ -4,7 +4,7 @@ const isEmail = (email) => {
 };
 
 exports.isEmpty = (string) => {
-    if (string === null) {
+    if (string === null || string === undefined) {
         return false;
     }
     return string.trim() === '';

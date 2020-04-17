@@ -12,14 +12,54 @@ exports.findPost = function(req, res){
     // TODO: Querying by location
     // TODO: Pagination
 
-    // No city query put in
-    if(!req.query.hasOwnProperty('city') || req.query.city === undefined || isEmpty(req.query.city)){
+    //city query put in
+    if(req.query.hasOwnProperty('city') && req.query.city !== undefined && !isEmpty(req.query.city)){
+        postCollection
+        .where('city', "==", req.query.city)
+        .get()
+        .then((snapShot) => {
+            let posts = [];
+            snapShot.forEach(doc => {
+                let data = doc.data();
+                    data.id = doc.id;
+                    posts.push(data);
+            });
+            if(posts.length > 0)
+                return res.status(200).json(posts);
+            else
+                return res.status(204).json({message: 'No posts found within this city'});
+        })
+        .catch(err => {
+            console.error('Error getting collection of posts', err);
+        });
+    } else if(req.query.hasOwnProperty('handle') && req.query.handle !== undefined && !isEmpty(req.query.handle)) {
+        postCollection
+        .where('userHandle', "==", req.query.handle)
+        .get()
+        .then((snapShot) => {
+            let posts = [];
+            snapShot.forEach(doc => {
+                let data = doc.data();
+                    data.id = doc.id;
+                    posts.push(data);
+            });
+            if(posts.length > 0)
+                return res.status(200).json(posts);
+            else
+                return res.status(204).json({message: 'No posts found within this city'});
+        })
+        .catch(err => {
+            console.error('Error getting collection of posts', err);
+        });
+    } else {
         postCollection
             .get()
             .then((snapShot) => {
                 let posts = [];
                 snapShot.forEach(doc => {
-                    posts.push(doc.data());
+                    let data = doc.data();
+                    data.id = doc.id;
+                    posts.push(data);
                 });
                 if(posts.length > 0)
                     return res.status(200).json(posts);
@@ -30,26 +70,6 @@ exports.findPost = function(req, res){
                 console.error('Error getting collection of posts', err);
             });
     }
-    else{
-        postCollection
-            .where('city', "==", req.query.city)
-            .get()
-            .then((snapShot) => {
-                let posts = [];
-                snapShot.forEach(doc => {
-                    posts.push(doc.data());
-                });
-                if(posts.length > 0)
-                    return res.status(200).json(posts);
-                else
-                    return res.status(204).json({message: 'No posts found within this city'});
-            })
-            .catch(err => {
-                console.error('Error getting collection of posts', err);
-            });
-    }
-
-
 }
 
 exports.getPost = function(req, res){
@@ -73,7 +93,18 @@ exports.getPost = function(req, res){
             res.json(err);
         });
 }
-
+/*
+exports.removePost = function(req, res){
+    postCollection.doc(req.params.postID).delete().then(() => {
+        res.status(200);
+        return;
+    }).catch((error) => {
+        res.status(400).json({error:"delete post failed, "+error});
+        return;
+    });
+    return;
+}
+*/
 exports.updatePost = function(req, res){
 
     if(!res.locals.isAuthenticated && !devAuth)
@@ -137,10 +168,10 @@ exports.deletePost = function(req , res){
 
     if(!res.locals.isAuthenticated && !devAuth)
         res.status(401).json({error: 'Not Authenticated', errorMessage: 'No rogue post creations allowed'}).send();
-
+/*
     if(!res.locals.user.posts.includes(req.params.postID))
         res.status(403).json({error: 'Forbidden Post Edit', errorMessage: "Not in user's post list"}).send();
-
+*/
     postCollection.doc(req.params.postID).delete()
         .then(() => {
             return res.status(200).json({message: 'Post deletion successful'}).send();
