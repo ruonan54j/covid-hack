@@ -3,6 +3,20 @@ const isEmail = (email) => {
     return Boolean(email.match(regEx));
 };
 
+exports.getGeoCodeLat=(address, city, country)=>{
+    // if address valid & exist, return lat/ long
+    //if city valid & exists, return lat /long
+    // else if country valid & exist, return lat/ long
+    // else return 0
+}
+
+exports.getGeoCodeLong=(address, city, country)=>{
+    // if address valid & exist, return lat /long
+    //if city valid & exists, return lat/ long
+    // else if country valid & exist, return lat/ long
+    // else return 0
+}
+
 exports.isEmpty = (string) => {
     if (string === null || string === undefined) {
         return false;
