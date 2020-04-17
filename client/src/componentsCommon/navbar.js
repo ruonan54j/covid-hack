@@ -12,15 +12,26 @@ export const Navigationbar = (props) => {
   const [toggle, setToggle] = useState(1);
   const [userListings, setUserListings] = useState([]);
 
-  const userPosts=[];
+  const [userPosts, setUserPosts]=useState([]);
   useEffect(() => {
-    fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts?handle='+"123")
+    fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts?handle='+currentUser.handle)
         .then(res => {
         console.log("res here", res);
         return res.text().then((data) =>{
             console.log("DATA here",data);
             if (res.status == 200){
             setUserListings(data);
+            console.log(userListings);
+                
+            let uPosts = [];
+            for(let i = 0; i < data.length; i++){
+              //console.log("herzzze", i, userListings[i]);
+              uPosts.push(<div className="row">
+                <div className="delete-post" onClick={()=>deletePost(userListings[i].id)}>delete</div>
+              <div className="user-posts" onClick={()=>openPostPopUp(userListings[i])}>{userListings[i].title}</div>
+                </div>);
+            }
+            setUserPosts(uPosts);
             }
         })
     });
@@ -68,13 +79,7 @@ export const Navigationbar = (props) => {
 .catch(err=>alert(err));
   }
 
-  for(let i = 0; i < userListings.length; i++){
-    console.log(userListings[i]);
-    userPosts.push(<div className="row">
-      <div className="delete-post" onClick={()=>deletePost(userListings[i].id)}>delete</div>
-     <div className="user-posts" onClick={()=>openPostPopUp(userListings[i])}>{userListings[i].title}</div>
-      </div>);
-  }
+  
     return (
       <div>
         <nav className="navbar navbar-custom row">
