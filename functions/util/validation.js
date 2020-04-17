@@ -3,18 +3,73 @@ const isEmail = (email) => {
     return Boolean(email.match(regEx));
 };
 
+let options = {
+    provider: 'openstreetmap',
+}
+const geoCoder = require('node-geocoder')(options);
+
+let getGeoCode = (address, city, country) => {
+
+    let stringToGeocode;
+    // Conditionals determine which string to give to the geoCoder
+    if(!(exports.isEmpty(address))){
+        stringToGeocode = address
+    }
+    else if(!(exports.isEmpty(city))){
+        stringToGeocode = city
+    }
+    else if(!(exports.isEmpty(country))){
+        stringToGeocode = country
+    }
+    // If everything is empty/undefined - return null
+    else{
+        return null;
+    }
+
+    return geoCoder.geocode(stringToGeocode);
+
+}
+
 exports.getGeoCodeLat=(address, city, country)=>{
-    // if address valid & exist, return lat/ long
-    //if city valid & exists, return lat /long
-    // else if country valid & exist, return lat/ long
-    // else return 0
+
+    // Gets geoCode and returns back the latitude if geoCode request was successful
+    let code = getGeoCode(address, city, country)
+    if(code !== null){
+        return code
+            .then((res) => {
+                return res[0].latitude;
+            })
+            .catch((err) => {
+                console.log(err);
+                return 0;
+            });
+    }
+    // Else returns 0
+    else{
+        return 0;
+    }
+
 }
 
 exports.getGeoCodeLong=(address, city, country)=>{
-    // if address valid & exist, return lat /long
-    //if city valid & exists, return lat/ long
-    // else if country valid & exist, return lat/ long
-    // else return 0
+
+    // Gets geoCode and returns back the longitude if geoCode request was successful
+    let code = getGeoCode(address, city, country)
+    if(code !== null){
+        return code
+            .then((res) => {
+                return res[0].longitude;
+            })
+            .catch((err) => {
+                console.log(err);
+                return 0;
+            })
+    }
+    // Else returns 0
+    else{
+        return 0;
+    }
+
 }
 
 exports.isEmpty = (string) => {

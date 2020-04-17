@@ -2,10 +2,7 @@ const {admin, db} = require('../util/admin');
 const {validateNewPostData, isEmpty, getGeoCodeLat, getGeoCodeLong} = require('../util/validation');
 const postCollection = db.collection('posts');
 const devAuth = require('../util/env').DevAuth;
-let options = {
-    provider: 'openstreetmap',
-}
-const geocoder = require('node-geocoder')(options);
+
 
 exports.findPost = function(req, res){
 
