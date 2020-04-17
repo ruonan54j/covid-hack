@@ -40,7 +40,7 @@ const PartListing = () => {
     let partListing = [];
     for (var i = 0; i < partDetails.length; i++) {
         partListing.push(
-          <div key={i} className="col-6">
+          <div key={i} className="part-col">
           <Part part={partDetails[i]}/> 
             </div>
         );

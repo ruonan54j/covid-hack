@@ -15,10 +15,7 @@ const SearchBar = (props) => {
            value={searchTerm}
            onChange={handleChange}
          />
-         <button className="search-btn">Add Filter</button>
-         <div className="search-desc">
-         <p className="search-sort">sorted by Date</p>
-         </div>
+         <button className="search-btn">Enter</button>
        </div>
    
      );

@@ -19,7 +19,7 @@ const PostListing = () => {
     }
     return (
         <div>
-        <SearchBar placeholder="Search for a listing"/>
+        <SearchBar placeholder="Enter your city"/>
         <div className="new-post-btn-custom-div">
           <button className="new-post-btn-custom" onClick={() => handleClickOpen()}>Add Listing</button>
           </div>
