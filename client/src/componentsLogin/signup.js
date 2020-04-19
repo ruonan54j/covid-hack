@@ -144,7 +144,7 @@ const SignUp = () => {
           <input type="checkbox" id="tc" onChange={()=>toggleCheckboxValue()}/>
       <label for="tc"> I have read and understood the agreement <a href="https://www.termsfeed.com/privacy-policy/7c2ed99ca48554a7d7814f0d6c2d484e">view agreement</a></label><br>
       </br> 
-      <input type="checkbox" id="tc2" onChange={()=>toggleCheckboxValue18()}/> <br></br>
+      <input type="checkbox" id="tc2" onChange={()=>toggleCheckboxValue18()}/>
       <label for="tc2"> I verify I'm over 18 </label><br></br>
       <button className="login-btn" onClick={(e)=>handleSubmitBtn(e)}>Sign Up</button>
          

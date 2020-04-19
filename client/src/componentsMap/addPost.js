@@ -6,6 +6,7 @@ import Geocode from "react-geocode";
 const AddListing = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
   const [img, setImg] = useState("");
+  const [imgDone, setImgDone] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -29,6 +30,7 @@ const AddListing = () => {
     reader.readAsDataURL(file);
     reader.onload = (e) => {
       setImg(e.target.result);
+      setImgDone("image added successfully");
     }
   }
   
@@ -153,6 +155,7 @@ const handleSubmitBtn=(e) => {
           Upload image
           <label className="upload-file-btn">
    <input type="file" className="img-upload" accept="image/jpeg, image/png" onChange={(e) => {handleSetImg(e.target.files[0])}}/></label>
+    <p>{imgDone}</p>
    <button className="submit-post-btn" onClick={(e)=>handleSubmitBtn(e)}>Submit</button>
    <button className="submit-post-btn" onClick={(e)=>handleClickClose(e)}>Cancel</button>
               </div>
