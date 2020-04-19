@@ -15,18 +15,12 @@ export const Navigationbar = (props) => {
   const [userPosts, setUserPosts]=useState([]);
   useEffect(() => {
     let handleQ = "";
-    console.log('GOT HERE', currentUser);
     if (currentUser !== null){
       handleQ = currentUser.handle;
     } 
-     console.log("nav handle", handleQ);
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts?handle='+handleQ)
         .then(res => {
-        console.log("res here", res);
         return res.json().then((data) =>{
-
-            console.log("DATA here",data, data.length, data[0]);
-
             if (res.status == 200){
             setUserListings(data);
             let postu =[];
@@ -70,7 +64,6 @@ export const Navigationbar = (props) => {
   }
 
   const openPostPopUp=(post)=>{
-    console.log("post selected = ", post);
     setSelectedPost(post);
     document.getElementById("overlay-post").style.display = "block";  
   }
@@ -81,7 +74,6 @@ export const Navigationbar = (props) => {
         method: 'DELETE',
       })
       .then(res => {
-        console.log(res.text());
         alert("delete successful");
         openProfile();
       }) // or res.json()
@@ -110,14 +102,17 @@ export const Navigationbar = (props) => {
           <Link to={"/"} onClick={() => setcurrentPage(2)} className={currentPage==2?"nav-page nav-page-active": "nav-page"} href="#">
               <p>Maker's Database</p>
             </Link>
-            <a onClick={() => openProfile()} className={(!profileOpen)?"nav-page":"nav-page nav-page-active"} href="#">
+          
+            <Link onClick={() => openProfile()} className={(!profileOpen)?"nav-page":"nav-page nav-page-active"}>
               <p>Profile</p>
-            </a>
+            </Link>
             </div>
           </nav>
           <div className="profile-popup" id="clicked-profile">
+            
             <div className="col profile-content">
-            <p>username: {(currentUser === null)? "": currentUser.handle}</p>
+            <p onClick={()=>openProfile()} className="close-profile-a">X close</p>
+            <p> <strong>username:</strong> {(currentUser === null)? "": currentUser.handle}</p>
             <div><strong>My Posts</strong></div>
               {userPosts}
               </div>

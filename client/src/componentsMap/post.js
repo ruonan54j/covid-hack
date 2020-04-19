@@ -6,7 +6,6 @@ const Post = (props) => {
 
   const handleBuyerClick = () =>{
     document.getElementById("overlay-post").style.display = "block"; 
-    console.log(props);
     setSelectedPost(props.post);
   }
   return (

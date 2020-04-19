@@ -60,7 +60,6 @@ const handleSubmitBtn=(e) => {
         latRes = lat;
         longRes = long;
 
-        console.log(lat, long);
       },
       error => {
         console.error(error);
@@ -82,6 +81,7 @@ const handleSubmitBtn=(e) => {
           "country": country.toString(),
           "price": price.toString(),
           "capacity": capacity.toString(),
+          "delivery": delivery.toString(),
           "phone": phone.toString(),
           "email": email.toString(),
           "img": img,
@@ -96,7 +96,6 @@ const handleSubmitBtn=(e) => {
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts', sendData)
     .then(res => {
       return res.json().then((data) =>{
-        console.log("DATA",data);
         if (res.status === 201){
           alert("post created");
           document.getElementById("overlay-add-listing").style.display = "none";
@@ -122,7 +121,7 @@ const handleSubmitBtn=(e) => {
           <textarea rows="4" 
           onChange={e => setDescription(e.target.value)} 
           className="add-listings-description" placeholder="description"></textarea>
-          <input placeholder="Address" 
+          <input placeholder="Address (optional)" 
           onChange={e => setAddress(e.target.value)} 
           className="add-listings-input"/>
           <input placeholder="city" 

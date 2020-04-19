@@ -14,9 +14,7 @@ const MapPage = (props) => {
     useEffect(() => {
         fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts')
             .then(res => {
-            console.log("res", res);
             return res.json().then((data) =>{
-                console.log("DATA",data);
                 if (res.status == 200){
                     setListings(data);
                 }

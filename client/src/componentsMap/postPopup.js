@@ -18,8 +18,6 @@ const PostPopup = () => {
             <div className="close-btn" onClick={handleClickClose}>X close</div>
             <p className="popup-post-grey-text">listed by {selectedPost.handle}</p>
           <h1 className="popup-post-h1">{selectedPost.title}</h1>
-          
-          <p>3.5 kilometers away</p>
             <div className="row">
               <div className="col">
                 <p className="popup-post-grey-text">PRODUCTION CAPACITY</p>
@@ -40,8 +38,8 @@ const PostPopup = () => {
                 <p>{selectedPost.phone}</p>
               </div>
             </div>
-            <p className="popup-post-grey-text">PICKUP LOCATION</p>
-            <p>{selectedPost.address}</p>
+            <p className="popup-post-grey-text">PICKUP METHOD</p>
+            <p>{selectedPost.delivery}</p>
         </div>
         
           <div className="popup-col">

@@ -177,6 +177,15 @@ start */
 /*makers db end*/
 
 /*navbar starts*/
+.close-profile-a{
+  color: gray;
+  margin-bottom: 1em;
+}
+
+.close-profile-a:hover{
+  color: #00609A;
+}
+
 #nav-expand{
   display: flex;
 }
@@ -212,6 +221,16 @@ start */
   font-size: .8em;
   text-align: center;
   text-decoration: underline;
+}
+
+.post-loading-msg{
+  font-size: 1.2em;
+}
+
+.part-loading-msg{
+  font-size: 1.2em;
+  width: 100%;
+  text-align: center;
 }
 
 .delete-post:hover{
@@ -1079,8 +1098,13 @@ start */
 
   .navbar-toggle{
     display: block;
+    background-color: white;
+    outline: none;
     margin-left: 10%;
+    border: none;
   }
+
+  
 /*navbar end*/
 
 /*login start*/

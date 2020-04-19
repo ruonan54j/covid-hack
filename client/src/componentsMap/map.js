@@ -17,8 +17,8 @@ const Map = (props) => {
     let i = 0;
     return (
         <GoogleMap 
-        defaultZoom={8}
-        center={{lat: (mapCoord===null)?0: mapCoord.lat, lng:  (mapCoord===null)?0: mapCoord.long}}
+        defaultZoom={4}
+        center={{lat: (mapCoord===null)?56: mapCoord.lat, lng:  (mapCoord===null)?-106: mapCoord.long}}
         >
         {
             listings.map( listing => (
@@ -44,7 +44,7 @@ const Map = (props) => {
                     <div>
                     Listing Details
                         <p>{selectedListing.title}</p>
-            <p>Lat: {selectedListing.lat} Lon: {selectedListing.long}</p>
+            <p>{selectedListing.description}</p>
                     </div>
 
                 </InfoWindow>

@@ -58,12 +58,10 @@ const SignUp = () => {
       })
     };
 
-    console.log("body",sendData.body);
 
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/signup', sendData)
     .then(res => {
       return res.json().then((data) => {
-        console.log("DATA",data);
         if (res.status == 201){
           setCurrentUser(data);
         }else{

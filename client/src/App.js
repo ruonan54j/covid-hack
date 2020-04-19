@@ -45,12 +45,10 @@ function App() {
     () => {
       if(currentUser === null){
           localStorage.clear();
-          console.log("current user updated", currentUser);
           setIsAuthenticated(false);
       }
       else if(currentUser._currentValue != false) {
         localStorage.setItem("currentUser", currentUser.userID);
-        console.log("current user updated", currentUser);
         setIsAuthenticated(true);
       }
     },
