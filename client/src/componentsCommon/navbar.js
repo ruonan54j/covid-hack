@@ -76,16 +76,18 @@ export const Navigationbar = (props) => {
   }
 
   const deletePost=(postID)=>{
-    console.log(postID);
-    fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts/' + postID, {
-  method: 'DELETE',
-})
-.then(res => {
-  console.log(res.text());
-  alert("delete successful");
-  openProfile();
-}) // or res.json()
-.catch(err=>alert(err));
+    if(window.confirm("confirm delete post")) {
+      fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts/' + postID, {
+        method: 'DELETE',
+      })
+      .then(res => {
+        console.log(res.text());
+        alert("delete successful");
+        openProfile();
+      }) // or res.json()
+      .catch(err=>alert(err));
+    } else {
+    }
   }
 
   

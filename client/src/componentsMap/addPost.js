@@ -43,6 +43,12 @@ const AddListing = () => {
 
 const handleSubmitBtn=(e) => {
     e.preventDefault();
+
+    if(city === "" 
+    || title === "" || country === "" || email === "" || phone === ""){
+      alert("Title, City, Country, Email, and Phone number must be present");
+      return;
+    }
     let longRes = 0;
     let latRes = 0;
     Geocode.setRegion("ca");
@@ -81,9 +87,10 @@ const handleSubmitBtn=(e) => {
           "img": img,
           "lat": latRes,
           "long": longRes,
-          "city": city.toString()
+          "city": city.toString().toLowerCase()
           
       })
+
     };
 
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts', sendData)
@@ -93,11 +100,14 @@ const handleSubmitBtn=(e) => {
         if (res.status === 201){
           alert("post created");
           document.getElementById("overlay-add-listing").style.display = "none";
+          window.location.reload(false);
         } else {
           alert("error creating post");
         }
       })
     });
+
+
   }
     return (
       <div id="overlay-add-listing">

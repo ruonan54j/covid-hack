@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import logo from './logo.svg';
 import './App.css';
 
@@ -57,8 +57,9 @@ function App() {
     [currentUser]
   );
   return (
+ 
   <HashRouter>
-  
+<div className="pages">
   <UserContext.Provider value={{currentUser, setCurrentUser}}>
   <selectedPostContext.Provider value={{selectedPost, setSelectedPost}}>
   <PostPopup />
@@ -88,10 +89,17 @@ function App() {
             : <Landing/>)} />
       </Switch>
     </div>
+  
     </selectedPostContext.Provider>
 
     </UserContext.Provider>
+    </div>
+    <div className="footer">
+      <p>All rights reserved to SupplyWay.co</p>
+      <p>Please email info@supplyway.co for any questions/support</p>
+    </div>
   </HashRouter>
+
   );
 }
 

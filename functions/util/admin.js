@@ -7,6 +7,5 @@ admin.initializeApp({
     databaseURL: "https://covid-hack-c6549.firebaseio.com"
 });
 const db = admin.firestore();
-const storageRef = firebase.storage().ref();
-module.exports = {admin, db, storageRef};
+module.exports = {admin, db};
 

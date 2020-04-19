@@ -6,9 +6,11 @@ import {
     Marker,
     InfoWindow
 } from 'react-google-maps';
+import {selectedPostContext, MapCoordContext} from '../selectedContext';
 import { ListingsContext } from "../ListingsContext";
 
 const Map = (props) => {
+    const {mapCoord, setMapCoord} = useContext(MapCoordContext);
     const {listings, setListings} = useContext(ListingsContext);
     //const [listings, setListings] = React.useState([{id:1,title: "cheap face masks", lat:44,lng:-76},{id: 2, title: "cheap face masks2",lat:46,lng:-76},{id: 3, title: "cheap face masks3",lat:45.5,lng:-74}]);
     const [selectedListing, setSelectedListing] = useState((listings.length!==0)?listings[0]:"");
@@ -16,7 +18,7 @@ const Map = (props) => {
     return (
         <GoogleMap 
         defaultZoom={8}
-        center={{lat: (listings.length!==0 && (selectedListing.lat!== undefined))?parseFloat(selectedListing.lat): 0, lng: (listings.length!==0 && (listings.long!== undefined))?parseFloat(listings[0].long):0}}
+        center={{lat: (mapCoord===null)?0: mapCoord.lat, lng:  (mapCoord===null)?0: mapCoord.long}}
         >
         {
             listings.map( listing => (

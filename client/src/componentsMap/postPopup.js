@@ -25,7 +25,7 @@ const PostPopup = () => {
                 <p className="popup-post-grey-text">PRODUCTION CAPACITY</p>
                 <p>{selectedPost.capacity} / week</p>
               </div>
-              <div>
+              <div className="col">
                 <p className="popup-post-grey-text">COST PER PART</p>
                 <p>{selectedPost.price}</p>
               </div>

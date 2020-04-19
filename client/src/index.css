@@ -7,6 +7,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #F4F4F4;
+  min-height: 100vh;
 }
 
 code {
@@ -18,6 +19,28 @@ code {
   padding: 0;
   margin-left: 0;
   list-style-type: none;
+}
+
+#root{
+  margin-bottom: 0;
+  min-height: 100vh;
+  padding-bottom: 0;
+}
+
+.pages{
+  min-height: 100vh;
+}
+.footer{
+  bottom: 0;
+  background-color: #00609A;
+  color: white;
+  width: 100%;
+  bottom: 0;
+  padding: 5%;
+  text-align: center;
+  font-weight: 700;
+  margin-top: 5em;
+  
 }
 /* 
 start */
@@ -765,7 +788,7 @@ start */
 
 /*Rj responsive styling*/
 
-@media only screen and (min-device-width: 769px) and (max-device-width: 1024px){
+@media (min-device-width: 769px) and (max-device-width: 1024px) {
   /*post*/
 
   .search-input{
@@ -803,7 +826,7 @@ start */
     width: 60%;
   }
 }
-@media only screen and (min-device-width: 551px) and (max-device-width: 768px){
+@media (min-device-width: 551px) and (max-device-width: 768px){
 
   /*post*/
   .search-input{
@@ -891,7 +914,7 @@ start */
   }
 }
 
-@media only screen and (max-device-width: 550px){
+@media (max-device-width: 550px){
 
   .profile-popup{
     margin-left: 10vw;

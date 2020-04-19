@@ -14,7 +14,8 @@ const SignUp = () => {
   const [emailError, setEmailError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  const [agreement, setAgreement] = useState(false);
+  const [agreement18, setAgreement18] = useState(false);
   const [password, setPassword, passwordError] = usePasswordValidator({
     min: 8,
     max: 15
@@ -37,6 +38,11 @@ const SignUp = () => {
       alert("Fields can not be empty!");
       return;
     }
+
+    if(!agreement || !agreement18){
+      alert("Must agree to terms and conditions");
+      return; 
+       }
     let sendData = {
       method: 'POST',
       headers: {
@@ -101,6 +107,21 @@ const SignUp = () => {
     [password, confirmPassword]
   );
 
+  const toggleCheckboxValue = () => {
+    if (!agreement){
+      setAgreement(true);
+    }else{ 
+      setAgreement(false);
+    }
+  }
+
+  const toggleCheckboxValue18 = () => {
+    if (!agreement18){
+      setAgreement18(true);
+    }else{ 
+      setAgreement18(false);
+    }
+  }
     return (
     <div className="signup-pg">
         <h1 className="login-title">Sign-up</h1>
@@ -122,7 +143,12 @@ const SignUp = () => {
           onChange={e => setConfirmPassword(e.target.value)}
           className="login-input" group type="password"/>
           <div className="error">{confirmPasswordError}</div>
-            <button className="login-btn" onClick={(e)=>handleSubmitBtn(e)}>Sign Up</button>
+          <input type="checkbox" id="tc" onChange={()=>toggleCheckboxValue()}/>
+      <label for="tc"> I have read and understood the agreement <a href="https://www.termsfeed.com/privacy-policy/7c2ed99ca48554a7d7814f0d6c2d484e">view agreement</a></label><br>
+      </br> 
+      <input type="checkbox" id="tc2" onChange={()=>toggleCheckboxValue18()}/> <br></br>
+      <label for="tc2"> I verify I'm over 18 </label><br></br>
+      <button className="login-btn" onClick={(e)=>handleSubmitBtn(e)}>Sign Up</button>
          
           <p className="signup-link">Have an account? <Link to="/login">Log in here</Link></p>
           </div>

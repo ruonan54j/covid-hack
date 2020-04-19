@@ -13,9 +13,8 @@ const Post = (props) => {
     <div className="post" onClick={()=>handleBuyerClick()}>
       <div className="row">
       <div className= "left-post-div">
-        <p className="post-author">Listed by {props.post.handle}</p>
+        <p className="post-author">Listed by {props.post.userHandle}</p>
       <h1 className="post-title">{props.post.title}</h1>
-      <p className="post-distance">{props.post.distance} kilometers away</p>
         <div className="row">
           <div className="col">
             <p className="post-grey-text">PRODUCTION CAPACITY</p>
@@ -23,7 +22,7 @@ const Post = (props) => {
           </div>
           <div className="col">
           <p className="post-grey-text">COST PER PIECE</p>
-            <p> ${props.post.cost} </p></div>
+            <p> ${props.post.price} </p></div>
         </div>
       
       </div>

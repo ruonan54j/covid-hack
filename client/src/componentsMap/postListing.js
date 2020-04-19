@@ -2,16 +2,21 @@ import React, { useState, useContext } from "react";
 import Post from './post';
 import SearchBar from '../componentsCommon/searchbar'
 import { ListingsContext } from "../ListingsContext";
-import {selectedPostContext} from '../selectedContext';
+import {selectedPostContext, MapCoordContext} from '../selectedContext';
 const PostListing = () => {
 
   const {listings, setListings} = useContext(ListingsContext);
+  const {mapCoord, setMapCoord} = useContext(MapCoordContext);
   const [searchTerm, setSearchTerm] = React.useState("");
   
   const handleSearch = () => {
+
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts?city='+searchTerm)
             .then(res => {
-            console.log("res", res);
+            if(res.status != 200){
+              alert("sorry, no listings for this city yet");
+              return;
+            }
             return res.json().then((data) =>{
                 console.log("DATA",data);
                 if (res.status == 200){
@@ -23,6 +28,23 @@ const PostListing = () => {
                 console.log(e);
             });
       });
+
+      fetch("https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/azdc-city/"+searchTerm)
+      .then(res => {
+        return res.json().then((data) =>{
+          if(res.status== 200){
+            setMapCoord({lat: data.lat, long: data.long});
+          } else {
+            alert("invalid location input");
+          }
+        })
+      })
+      .catch((e)=>{
+        alert("invalid location input");
+        console.log(e);
+      });
+      
+
     }
   
   const handleChange = event => {
