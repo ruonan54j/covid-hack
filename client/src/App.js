@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import logo from './logo.svg';
 import './App.css';
 
@@ -22,30 +22,42 @@ function App() {
 
   let apiKey = process.env.REACT_APP_GOOGLE_KEY;
   useEffect(()=>{
-    let user = localStorage.getItem('currentUser');
-    if(user !== null || user !== undefined){
-      setCurrentUser(user);
-      setIsAuthenticated(true);
+    let userID = localStorage.getItem('currentUser');
+    if(userID !== null || userID !== undefined) {
+      fetch("https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/users/"+userID)
+      .then(res=>{
+        res.json().then((data) =>{
+            setCurrentUser(data);
+            setIsAuthenticated(true);
+        }).catch((e)=>{
+          console.log(e);
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      });
+
+    } else{
+      setIsAuthenticated(false);
     }
   },[]);
   useEffect(
     () => {
       if(currentUser === null){
           localStorage.clear();
-          console.log("current user updated", currentUser);
           setIsAuthenticated(false);
       }
       else if(currentUser._currentValue != false) {
-        localStorage.setItem("currentUser", currentUser);
-        console.log("current user updated", currentUser);
+        localStorage.setItem("currentUser", currentUser.userID);
         setIsAuthenticated(true);
       }
     },
     [currentUser]
   );
   return (
+ 
   <HashRouter>
-  
+<div className="pages">
   <UserContext.Provider value={{currentUser, setCurrentUser}}>
   <selectedPostContext.Provider value={{selectedPost, setSelectedPost}}>
   <PostPopup />
@@ -75,10 +87,17 @@ function App() {
             : <Landing/>)} />
       </Switch>
     </div>
+  
     </selectedPostContext.Provider>
 
     </UserContext.Provider>
+    </div>
+    <div className="footer">
+      <p>All rights reserved to SupplyWay.co</p>
+      <p>Please email info@supplyway.co for any questions/support</p>
+    </div>
   </HashRouter>
+
   );
 }
 

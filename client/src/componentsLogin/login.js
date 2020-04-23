@@ -21,13 +21,9 @@ const Login = () => {
       })
     };
 
-    console.log("body",sendData.body);
-
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/login', sendData)
     .then(res => {
-      console.log("res", res);
       return res.json().then((data) =>{
-        console.log("DATA",data);
         if (res.status == 200){
           let user= data;
           setCurrentUser(user);

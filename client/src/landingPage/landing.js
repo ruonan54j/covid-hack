@@ -7,7 +7,7 @@ const Landing = () => {
             <div className="row">
                 <div className="left-landing-col heading-landing-main">
                     <h1 className="h1-heading-landing-main">
-                Connecting Suppliers and Buyers for 3D printed products in the fight against Covid-19.
+                    Connecting Suppliers and Buyers for PPE, 3D printed products, and other essential materials in the fight against Covid-19.
                 </h1>
                 </div>
                 <div className="right-landing-col">                    

@@ -6,6 +6,7 @@ import Geocode from "react-geocode";
 const AddListing = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
   const [img, setImg] = useState("");
+  const [imgDone, setImgDone] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -21,10 +22,15 @@ const AddListing = () => {
   const [delivery, setDelivery] = useState("pickup");
   
   const handleSetImg = (file) => {
+    if(file.size > 300000){
+      alert("file must be under 300kb!");
+      return;
+    }
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
       setImg(e.target.result);
+      setImgDone("image added successfully");
     }
   }
   
@@ -39,6 +45,12 @@ const AddListing = () => {
 
 const handleSubmitBtn=(e) => {
     e.preventDefault();
+
+    if(city === "" 
+    || title === "" || country === "" || email === "" || phone === ""){
+      alert("Title, City, Country, Email, and Phone number must be present");
+      return;
+    }
     let longRes = 0;
     let latRes = 0;
     Geocode.setRegion("ca");
@@ -50,7 +62,6 @@ const handleSubmitBtn=(e) => {
         latRes = lat;
         longRes = long;
 
-        console.log(lat, long);
       },
       error => {
         console.error(error);
@@ -72,28 +83,32 @@ const handleSubmitBtn=(e) => {
           "country": country.toString(),
           "price": price.toString(),
           "capacity": capacity.toString(),
+          "delivery": delivery.toString(),
           "phone": phone.toString(),
           "email": email.toString(),
           "img": img,
           "lat": latRes,
           "long": longRes,
-          "city": city.toString()
+          "city": city.toString().toLowerCase()
           
       })
+
     };
 
     fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts', sendData)
     .then(res => {
       return res.json().then((data) =>{
-        console.log("DATA",data);
         if (res.status === 201){
           alert("post created");
           document.getElementById("overlay-add-listing").style.display = "none";
+          window.location.reload(false);
         } else {
           alert("error creating post");
         }
       })
     });
+
+
   }
     return (
       <div id="overlay-add-listing">
@@ -108,7 +123,7 @@ const handleSubmitBtn=(e) => {
           <textarea rows="4" 
           onChange={e => setDescription(e.target.value)} 
           className="add-listings-description" placeholder="description"></textarea>
-          <input placeholder="Address" 
+          <input placeholder="Address (optional)" 
           onChange={e => setAddress(e.target.value)} 
           className="add-listings-input"/>
           <input placeholder="city" 
@@ -140,6 +155,7 @@ const handleSubmitBtn=(e) => {
           Upload image
           <label className="upload-file-btn">
    <input type="file" className="img-upload" accept="image/jpeg, image/png" onChange={(e) => {handleSetImg(e.target.files[0])}}/></label>
+    <p>{imgDone}</p>
    <button className="submit-post-btn" onClick={(e)=>handleSubmitBtn(e)}>Submit</button>
    <button className="submit-post-btn" onClick={(e)=>handleClickClose(e)}>Cancel</button>
               </div>

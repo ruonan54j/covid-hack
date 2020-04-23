@@ -42,7 +42,7 @@ router.get(postRoute, postController.findPost);
 router.put(postRoute + postID, postController.updatePost);
 router.post(postRoute, postController.createPost);
 router.delete(postRoute + postID, postController.deletePost);
-
+router.get("/azdc-city/:city", postController.getCity);
 // Part Endpoints
 router.get(partRoute + partID, partController.findPart);
 router.get(partRoute, partController.getPart);

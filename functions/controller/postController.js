@@ -1,11 +1,8 @@
 const {admin, db} = require('../util/admin');
-const {validateNewPostData, isEmpty} = require('../util/validation');
+const {validateNewPostData, isEmpty, getGeoCode, callGeo, storageRef} = require('../util/validation');
 const postCollection = db.collection('posts');
 const devAuth = require('../util/env').DevAuth;
-let options = {
-    provider: 'openstreetmap',
-}
-const geocoder = require('node-geocoder')(options);
+
 
 exports.findPost = function(req, res){
 
@@ -15,7 +12,7 @@ exports.findPost = function(req, res){
     //city query put in
     if(req.query.hasOwnProperty('city') && req.query.city !== undefined && !isEmpty(req.query.city)){
         postCollection
-        .where('city', "==", req.query.city)
+        .where('city', "==", req.query.city.toLowerCase())
         .get()
         .then((snapShot) => {
             let posts = [];
@@ -134,6 +131,25 @@ exports.updatePost = function(req, res){
 
 }
 
+exports.getCity = function(req, res) {
+    let city = req.params.city;
+  
+    callGeo(city).then((geo)=>{
+     
+        if(geo !== undefined){
+            res.status(200).json({lat: geo.lat, long: geo.lng});
+            return;
+        }else{
+            res.status(204).json({message:"location not found"});
+            return;
+        }
+    })
+    .catch(e=>{
+        res.send(204).json({message: "location not found"});
+    })
+    
+}
+
 exports.createPost = function(req, res){
 
     if(!res.locals.isAuthenticated && !devAuth)
@@ -145,19 +161,33 @@ exports.createPost = function(req, res){
     if(!valid)
         return res.status(400).json(errors);
 
-    db.collection('posts').add(newPost)
+    getGeoCode(req.body.address, req.body.city, req.body.country)
+    .then((geo)=>{
+        if(geo !== undefined){
+            newPost.long = geo.lng;
+            newPost.lat = geo.lat;
+        } else {
+            newPost.long = 10;
+            newPost.lat = 10;
+        }
+        console.log(newPost,"data,");
+        // eslint-disable-next-line promise/no-nesting
+        return db.collection('posts').add(newPost)
         .then((dataRef) => {
             return db.doc(`/users/${newPost.userHandle}`).update({
                 posts: admin.firestore.FieldValue.arrayUnion(dataRef.id)
             });
         })
-        .then(() => {
-            return res.status(201).json({message: 'Post Created Successfully', request: req.body});
+        .then(()=>{
+            return res.status(201).json({message: 'Post Created Successfully', request: newPost});
         })
         .catch(err => {
             console.log(err);
             return res.status(500).json({error: err.code, errorMessage: err.message});
         });
+        
+    })
+    .catch(e=>{console.log(e)});
 
 }
 
@@ -182,7 +212,6 @@ exports.deletePost = function(req , res){
         })
 
 }
-
 
 
 

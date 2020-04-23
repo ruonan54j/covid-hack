@@ -3,6 +3,77 @@ const isEmail = (email) => {
     return Boolean(email.match(regEx));
 };
 
+const opencage = require('opencage-api-client');
+
+exports.getGeoCode=(address, city, country)=>{
+    let promiseArr = [];
+    promiseArr.push(callGeo(address+" "+city+" "+country), callGeo(city+" "+country), callGeo(country), callGeo(city));
+    return Promise.all(promiseArr).then((values) => {
+        console.log("HERE",values);
+        for(let i=0; i< values.length; i++){
+            if(values[i] !== undefined && values[i] !== 0){
+                return values[i];
+            }
+        }
+        return;
+      })
+      .catch((e)=>{
+          console.log(e);
+      })
+}
+
+const callGeo=(input)=>{
+    
+    return opencage.geocode({q: input}).then(data => {
+        if (data.status.code === 200) {
+          if (data.results.length > 0) {
+            var place = data.results[0];
+            console.log(place.geometry);
+            return place.geometry;
+          } else {
+          return 0;
+          }
+        } else if (data.status.code === 402) {
+          console.log('hit free-trial daily limit');
+          console.log('become a customer: https://opencagedata.com/pricing'); 
+          return 0;
+        } else {
+          // other possible response codes:
+          // https://opencagedata.com/api#codes
+          console.log('error', data.status.message);
+          return 0;
+        }
+      }).catch(error => {
+        console.log('error', error.message);
+      });
+}
+
+exports.callGeo=(input)=>{
+    
+    return opencage.geocode({q: input}).then(data => {
+        if (data.status.code === 200) {
+          if (data.results.length > 0) {
+            var place = data.results[0];
+            console.log(place.geometry);
+            return place.geometry;
+          } else {
+          return 0;
+          }
+        } else if (data.status.code === 402) {
+          console.log('hit free-trial daily limit');
+          console.log('become a customer: https://opencagedata.com/pricing'); 
+          return 0;
+        } else {
+          // other possible response codes:
+          // https://opencagedata.com/api#codes
+          console.log('error', data.status.message);
+          return 0;
+        }
+      }).catch(error => {
+        console.log('error', error.message);
+      });
+}
+
 exports.isEmpty = (string) => {
     if (string === null || string === undefined) {
         return false;

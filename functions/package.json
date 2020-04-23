@@ -24,6 +24,7 @@
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
     "node-geocoder": "^3.27.0",
+    "opencage-api-client": "^0.7.1",
     "uuid": "^7.0.3"
   },
   "devDependencies": {

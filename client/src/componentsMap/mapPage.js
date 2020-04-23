@@ -4,18 +4,17 @@ import PostListing from "./postListing";
 import PostPopup from "./postPopup";
 import AddListing from './addPost';
 import { ListingsContext } from "../ListingsContext";
+import { MapCoordContext } from "../selectedContext";
 
 
 const MapPage = (props) => {
     
     const [listings, setListings] = React.useState([]);
-    
+    const [mapCoord, setMapCoord] = React.useState(null);
     useEffect(() => {
         fetch('https://us-central1-covid-hack-c6549.cloudfunctions.net/api/v1/posts')
             .then(res => {
-            console.log("res", res);
             return res.json().then((data) =>{
-                console.log("DATA",data);
                 if (res.status == 200){
                     setListings(data);
                 }
@@ -27,7 +26,7 @@ const MapPage = (props) => {
      
     return (
         <ListingsContext.Provider value={{listings, setListings}}>
-          
+         <MapCoordContext.Provider value={{mapCoord, setMapCoord}}> 
         <div className="row">
                  <AddListing/>
         <div className="post-Listing-container">
@@ -43,6 +42,8 @@ const MapPage = (props) => {
       />
       </div>
       </div>
+
+      </MapCoordContext.Provider>
       </ListingsContext.Provider>
     )
 }

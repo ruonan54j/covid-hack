@@ -34,6 +34,10 @@ export const NavigationbarLogin = (props) => {
           <Link to={"/Login"} onClick={() => setcurrentPage(2)} className={currentPage==2?"nav-page nav-page-active": "nav-page"} href="#">
               <p>Login</p>
             </Link>
+
+            <Link to={"/signup"} onClick={() => setcurrentPage(3)} className={currentPage==3?"nav-page nav-page-active": "nav-page"} href="#">
+              <p>Signup</p>
+            </Link>
             </div>
           </nav>
         </div>
