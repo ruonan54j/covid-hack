@@ -20,6 +20,8 @@ const SignUp = () => {
     min: 8,
     max: 15
   });
+
+  const [error , setError] = useState("");
  
   const handleTypeBtn=(e, value)=>{
     e.preventDefault();
@@ -30,17 +32,17 @@ const SignUp = () => {
     e.preventDefault();
 
     if (emailError !== "" || confirmPasswordError !== "" || passwordError !== "") {
-      alert("Invalid fields! Please view errors");
+      setError("Invalid fields! Please view errors");
       return;
     }
 
     if(email === "" || password=== "" || confirmPassword === "" || username === "") {
-      alert("Fields can not be empty!");
+      setError("Fields can not be empty!");
       return;
     }
 
     if(!agreement || !agreement18){
-      alert("Must agree to terms and conditions");
+      setError("Must agree to terms and conditions");
       return; 
        }
     let sendData = {
@@ -65,10 +67,10 @@ const SignUp = () => {
         if (res.status == 201){
           setCurrentUser(data);
         }else{
-          let err =JSON.stringify(data).replace("{", "");
-          err = err.replace("}", "");
-          err = err.replace(/['"]+/g, "");
-          alert(err);
+          // let err =JSON.stringify(data).replace("{", "");
+          // err = err.replace("}", "");
+          // err = err.replace(/['"]+/g, "");
+          setError(data.error);
         }
       })
     });
@@ -127,6 +129,7 @@ const SignUp = () => {
             <div className="login-form-content">
           <button className={(isSupplier)?"signup-type":"signup-type-chosen"} onClick={(e)=>{handleTypeBtn(e, false)}}>I am a buyer</button> 
           <button className={(!isSupplier)?"signup-type":"signup-type-chosen"} onClick={(e)=>{handleTypeBtn(e, true)}}>I am a supplier</button>
+          <div className="error">{error}</div>
             <input placeholder="email"
             onChange={e => setEmail(e.target.value)}
             className="login-input" />
